@@ -1,6 +1,10 @@
 import ibis
 
-from ibis_benchmark.utils import benchmark, param
+from ibis_benchmark.utils import benchmark, param, register_log
+
+# start a new benchmark log
+log_path = '/tmp/log_benchmark.json'
+register_log(log_path, new_log=True)
 
 
 # setup
@@ -25,14 +29,40 @@ def pandas_table(name):
 
 
 @benchmark(
-    "fn1,fn2",
+    "f",
     [
         param(
-            lambda: omniscidb_table("functional_alltypes"),
-            id="omniscidb_table",
+            lambda: omniscidb_table("functional_alltypes").head().execute(),
+            group='omniscidb',
+            id="table_head",
         ),
-        param(lambda: pandas_table("functional_alltypes"), id="pandas_table"),
+        param(
+            lambda: pandas_table("functional_alltypes").head(),
+            group='pandas',
+            id="table_head",
+        ),
     ],
+    repeat=10,
 )
 def benchmark_head(f):
+    f()
+
+
+@benchmark(
+    "f",
+    [
+        param(
+            lambda: omniscidb_table("functional_alltypes").head().execute(),
+            group='omniscidb',
+            id="table_tail",
+        ),
+        param(
+            lambda: pandas_table("functional_alltypes").head(),
+            group='pandas',
+            id="table_tail",
+        ),
+    ],
+    repeat=10,
+)
+def benchmark_tail(f):
     f()
