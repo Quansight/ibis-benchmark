@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/asottile/seed-isort-config
+    rev: v1.9.2
+    hooks:
+      - id: seed-isort-config
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v4.3.17
+    hooks:
+      - id: isort
+  - repo: https://github.com/ambv/black
+    # we need to use this commit or later, to pickup the fix that splits
+    # trailing comma syntax into call vs def, both of which weren't implemented
+    # until python 3.6 (3.5 has just the call syntax) and we need to support
+    # 3.5 for a few months.
+    rev: cea13f498418784e22f8fbd78db3f9240a2bad11
+    hooks:
+      - id: black
+  - repo: git://github.com/pre-commit/pre-commit-hooks
+    rev: v2.1.0
+    hooks:
+      - id: flake8
+        types:
+          - python

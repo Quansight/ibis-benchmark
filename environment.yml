@@ -1,0 +1,14 @@
+channels:
+  - conda-forge
+dependencies:
+  - black
+  - click
+  - flake8
+  - ibis-framework
+  - isort
+  - pip
+  - pytest
+  - pre_commit
+  - sh
+  - pip:
+    - seed-isort-config

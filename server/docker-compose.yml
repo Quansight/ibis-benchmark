@@ -1,0 +1,32 @@
+version: '3'
+services:
+
+  omniscidb:
+    image: omnisci/core-os-cpu:v4.7.0
+    hostname: omniscidb
+    ports:
+      - 6274:6274
+      - 6278:6278
+    volumes:
+      - ./omniscidb.conf:/omnisci-storage/omnisci.conf
+
+  waiter:
+    image: jwilder/dockerize
+    command: |
+      dockerize -wait tcp://omniscidb:6274
+                -wait-retry-interval 5s
+                -timeout 10m
+
+  ibis:
+    image: ibis:${PYTHON_VERSION:-3.6}
+    env_file:
+      - ./.env
+    volumes:
+      - /tmp/ibis:/tmp
+      - ..:/ibis
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      args:
+        PYTHON: ${PYTHON_VERSION:-3.6}
+
