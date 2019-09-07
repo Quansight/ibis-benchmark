@@ -8,24 +8,36 @@ register_log(log_path, new_log=True)
 
 
 # setup
-def omniscidb_con():
-    return ibis.omniscidb.connect(
-        host="localhost",
-        port="6274",
-        user="admin",
-        password="HyperInteractive",
-        database="ibis_testing",
-    )
+def omniscidb_con(connecion_name='localhost'):
+    conn_info = {
+        'localhost': {
+            'host': 'localhost',
+            'port': 6274,
+            'user': 'admin',
+            'password': 'HyperInteractive',
+            'database': 'ibis_testing',
+        },
+        'metis': {
+            'host': 'metis.mapd.com',
+            'port': 443,
+            'user': 'mapd',
+            'password': 'HyperInteractive',
+            'database': 'mapd',
+            'protocol': 'https',
+        },
+    }
+    return ibis.omniscidb.connect(**conn_info[connecion_name])
 
 
-def omniscidb_table(name):
-    con = omniscidb_con()
-    return con.table(name)
+def omniscidb_table(name, limit=10000):
+    con = omniscidb_con('metis')
+    print(con.list_tables())
+    return con.table(name).head(limit)
 
 
-def pandas_table(name):
-    con = omniscidb_con()
-    return con.table(name).execute()
+def pandas_table(name, limit=10000):
+    con = omniscidb_con('metis')
+    return con.table(name).head(limit).execute()
 
 
 @benchmark(
