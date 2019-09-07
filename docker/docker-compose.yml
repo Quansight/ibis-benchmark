@@ -1,4 +1,5 @@
-version: '3'
+version: '3.3'
+
 services:
 
   omniscidb:
@@ -9,6 +10,11 @@ services:
       - 6278:6278
     volumes:
       - ./omniscidb.conf:/omnisci-storage/omnisci.conf
+      - ../ibis_benchmark:/opt/ibis_benchmark
+    deploy:
+      resources:
+        limits:
+          memory: 4G
 
   waiter:
     image: jwilder/dockerize
@@ -16,17 +22,4 @@ services:
       dockerize -wait tcp://omniscidb:6274
                 -wait-retry-interval 5s
                 -timeout 10m
-
-  ibis:
-    image: ibis:${PYTHON_VERSION:-3.6}
-    env_file:
-      - ./.env
-    volumes:
-      - /tmp/ibis:/tmp
-      - ..:/ibis
-    build:
-      context: ..
-      dockerfile: Dockerfile
-      args:
-        PYTHON: ${PYTHON_VERSION:-3.6}
 

@@ -6,7 +6,7 @@ RUN apt-get -qq update --yes \
  && rm -rf /var/lib/apt/lists/*
 
 ARG PYTHON
-ADD ci/requirements-$PYTHON-dev.yml /
+ADD environment.yml /
 
 RUN export CONDA_BIN=/opt/conda/bin/conda \
   && $CONDA_BIN config --add channels conda-forge \
@@ -18,8 +18,8 @@ RUN export CONDA_BIN=/opt/conda/bin/conda \
 
 RUN echo 'source activate ibis-env && exec "$@"' > activate.sh
 
-COPY . /ibis
-WORKDIR /ibis
+COPY . /ibis-benchmark
+WORKDIR /ibis-benchmark
 
 RUN bash /activate.sh pip install -e . --no-deps --ignore-installed --no-cache-dir
 

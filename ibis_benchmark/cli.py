@@ -6,7 +6,7 @@ import click
 
 from ibis_benchmark import server
 
-BENCHMARK_TABLES = []
+BENCHMARK_TABLES = ['nyc_taxi']
 
 SCRIPT_DIR = Path(__file__).parent.absolute()
 DATA_DIR_NAME = "ibis-testing-data"
@@ -67,6 +67,45 @@ def cli(quiet):
 @click.option("--name", default="omniscidb")
 def start_server(name):
     server.start(name)
+
+
+@cli.command()
+@click.option('--name')
+@click.option('--destination', default=str(DATA_DIR))
+def download(name, destination):
+    url = {
+        'nyc-taxi': (
+            'https://data.cityofnewyork.us/api/views/biws-g3hs'
+            + '/rows.csv?accessType=DOWNLOAD'
+        )
+    }
+
+    if name not in url:
+        raise Exception(
+            'The data available are: {}.'.format(','.join(url.keys()))
+            + ' For more information type: python cli.py load-data --help'
+        )
+
+    server.download(url[name], name=name, destination=destination)
+
+
+@cli.command()
+@click.option('--name')
+@click.option('--backend', default='omniscidb')
+@click.option('--destination', default=str(DATA_DIR))
+def load_data(name, backend, destination):
+    dataset_available = ('nyc-taxi',)
+    backends_available = ('omniscidb',)
+
+    if name not in dataset_available:
+        raise Exception(
+            'The data available are: {}.'.format(','.join(dataset_available))
+            + ' For more information type: python cli.py load-data --help'
+        )
+    if backend not in backends_available:
+        raise Exception('{} is not a backend available.'.format(backend))
+    file_path = os.path.join(destination, '{}.csv'.format(name))
+    server.load_data(file_path, name=name, backend=backend)
 
 
 @cli.command()
