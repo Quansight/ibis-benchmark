@@ -6,37 +6,24 @@ from ibis_benchmark.utils import benchmark, param, register_log
 log_path = '/tmp/log_benchmark.json'
 register_log(log_path, new_log=True)
 
+conn_info = {
+    'host': 'localhost',
+    'port': 6274,
+    'user': 'admin',
+    'password': 'HyperInteractive',
+    'database': 'omnisci',
+}
 
-# setup
-def omniscidb_con(connecion_name='localhost'):
-    conn_info = {
-        'localhost': {
-            'host': 'localhost',
-            'port': 6274,
-            'user': 'admin',
-            'password': 'HyperInteractive',
-            'database': 'ibis_testing',
-        },
-        'metis': {
-            'host': 'metis.mapd.com',
-            'port': 443,
-            'user': 'mapd',
-            'password': 'HyperInteractive',
-            'database': 'mapd',
-            'protocol': 'https',
-        },
-    }
-    return ibis.omniscidb.connect(**conn_info[connecion_name])
+omniscidb_con = ibis.omniscidb.connect(**conn_info)
 
 
 def omniscidb_table(name, limit=10000):
-    con = omniscidb_con('metis')
-    print(con.list_tables())
+    con = omniscidb_con
     return con.table(name).head(limit)
 
 
 def pandas_table(name, limit=10000):
-    con = omniscidb_con('metis')
+    con = omniscidb_con
     return con.table(name).head(limit).execute()
 
 
@@ -44,12 +31,12 @@ def pandas_table(name, limit=10000):
     "f",
     [
         param(
-            lambda: omniscidb_table("functional_alltypes").head().execute(),
+            lambda: omniscidb_table("nyc_taxi").head().execute(),
             group='omniscidb',
             id="table_head",
         ),
         param(
-            lambda: pandas_table("functional_alltypes").head(),
+            lambda: pandas_table("nyc_taxi").head(),
             group='pandas',
             id="table_head",
         ),
@@ -64,12 +51,12 @@ def benchmark_head(f):
     "f",
     [
         param(
-            lambda: omniscidb_table("functional_alltypes").head().execute(),
+            lambda: omniscidb_table("nyc_taxi").head().execute(),
             group='omniscidb',
             id="table_tail",
         ),
         param(
-            lambda: pandas_table("functional_alltypes").head(),
+            lambda: pandas_table("nyc_taxi").head(),
             group='pandas',
             id="table_tail",
         ),

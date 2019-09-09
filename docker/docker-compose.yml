@@ -3,7 +3,7 @@ version: '3.3'
 services:
 
   omniscidb:
-    image: omnisci/core-os-cpu:v4.7.0
+    image: omnisci/core-os-cpu:v4.8.1
     hostname: omniscidb
     ports:
       - 6274:6274
@@ -11,10 +11,6 @@ services:
     volumes:
       - ./omniscidb.conf:/omnisci-storage/omnisci.conf
       - ../ibis_benchmark:/opt/ibis_benchmark
-    deploy:
-      resources:
-        limits:
-          memory: 4G
 
   waiter:
     image: jwilder/dockerize

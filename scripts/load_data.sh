@@ -37,7 +37,7 @@ CMD='\t'
 echo $(echo "$CMD" | omnisql --db omnisci --user admin --passwd HyperInteractive)
 
 # LOAD DATA
-CMD="COPY nyc_taxi FROM '/opt/ibis_benchmark/data/nyc-taxi.csv' WITH (quoted='false');"
+CMD="COPY nyc_taxi FROM '$PWD/scripts/data/nyc-taxi.csv' WITH (quoted='false');"
 echo $CMD
 echo $(echo "$CMD" | omnisql --db omnisci --user admin --passwd HyperInteractive)
 

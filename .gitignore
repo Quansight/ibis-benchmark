@@ -107,4 +107,4 @@ venv.bak/
 .vscode/
 
 # data
-/ibis_benchmark/data/
+/scripts/data/

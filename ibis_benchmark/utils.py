@@ -3,6 +3,19 @@ import os
 from time import time
 
 
+def cached(f):
+    cache = {}
+
+    def f_cached(*args, **kwargs):
+        k = str(args) + str(kwargs)
+        if k in cache:
+            return cache[k]
+        cache[k] = f(*args, **kwargs)
+        return cache[k]
+
+    return f_cached
+
+
 def timeit(f, *args, verbose: bool = False, **kwargs):
     t = time()
     f(*args)
