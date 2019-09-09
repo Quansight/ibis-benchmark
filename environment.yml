@@ -4,7 +4,6 @@ dependencies:
   - black
   - click
   - flake8
-  - ibis-framework
   - isort
   - pip
   - pytest
@@ -12,3 +11,4 @@ dependencies:
   - sh
   - pip:
     - seed-isort-config
+    - git+https://github.com/ibis-project/ibis.git@master
