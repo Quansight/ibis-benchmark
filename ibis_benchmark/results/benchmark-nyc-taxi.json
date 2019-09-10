@@ -1,0 +1,24 @@
+{
+ "omniscidb": {
+  "table_head": 0.020624160766601562,
+  "trip_distance_max": 0.022933483123779297,
+  "trip_distance_min": 0.021404027938842773,
+  "trip_distance_mean": 0.020156224568684895,
+  "trip_distance_std": 0.04917327562967936,
+  "trip_distance_sum": 0.019411563873291016,
+  "fare_amount_less_100_sum": 0.0234070618947347,
+  "fare_amount_less_100_mean": 0.022169987360636394,
+  "fare_amount_less_100_std": 0.0491339365641276
+ },
+ "pandas": {
+  "table_head": 0.00015751520792643228,
+  "trip_distance_max": 0.015662749608357746,
+  "trip_distance_min": 0.016124169031778973,
+  "trip_distance_mean": 0.016112565994262695,
+  "trip_distance_std": 0.03747749328613281,
+  "trip_distance_sum": 0.016038894653320312,
+  "fare_amount_less_100_sum": 0.4740299383799235,
+  "fare_amount_less_100_mean": 0.46591997146606445,
+  "fare_amount_less_100_std": 0.49019575119018555
+ }
+}

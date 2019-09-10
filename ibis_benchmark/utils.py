@@ -3,29 +3,23 @@ import os
 from time import time
 
 
-def cached(f):
+def cacheit(f):
     cache = {}
 
-    def f_cached(*args, **kwargs):
+    def _cacheit(*args, **kwargs):
         k = str(args) + str(kwargs)
         if k in cache:
             return cache[k]
         cache[k] = f(*args, **kwargs)
         return cache[k]
 
-    return f_cached
+    return _cacheit
 
 
-def timeit(f, *args, verbose: bool = False, **kwargs):
+def timeit(f):
     t = time()
-    f(*args)
-    time_diff = time() - t
-
-    if verbose:
-        k = kwargs["id"] or f.__name__
-        print({k: time_diff})
-
-    return time_diff
+    f()
+    return time() - t
 
 
 def register_log(file_path, data={}, new_log=False):
@@ -43,19 +37,14 @@ def register_log(file_path, data={}, new_log=False):
         json.dump(_data, f, indent=1)
 
 
-def param(*args, group='default', id=None):
-    return {'args': args, 'group': group, 'id': id}
+def benchmark(backend, id, log_path='/tmp/log_benchmark.json', repeat=1):
+    def benchmark_backend(f):
+        ts = 0
+        for _ in range(repeat):
+            ts += timeit(f)
 
+        t_mean = ts / repeat
+        register_log(log_path, {backend: {id: t_mean}})
+        return t_mean
 
-def benchmark(arg_names, params, log_path='/tmp/log_benchmark.json', repeat=1):
-    def _run_f(f):
-        for param in params:
-            ts = 0
-            for _ in range(repeat):
-                ts += timeit(f, *param["args"], id=param["id"])
-            register_log(
-                log_path, {param['group']: {param['id']: ts / repeat}}
-            )
-        return
-
-    return _run_f
+    return benchmark_backend

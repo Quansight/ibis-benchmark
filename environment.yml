@@ -5,6 +5,7 @@ dependencies:
   - click
   - flake8
   - isort
+  - matplotlib
   - pip
   - pytest
   - pre_commit
