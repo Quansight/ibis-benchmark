@@ -1,24 +1,35 @@
 {
- "omniscidb": {
-  "table_head": 0.020624160766601562,
-  "trip_distance_max": 0.022933483123779297,
-  "trip_distance_min": 0.021404027938842773,
-  "trip_distance_mean": 0.020156224568684895,
-  "trip_distance_std": 0.04917327562967936,
-  "trip_distance_sum": 0.019411563873291016,
-  "fare_amount_less_100_sum": 0.0234070618947347,
-  "fare_amount_less_100_mean": 0.022169987360636394,
-  "fare_amount_less_100_std": 0.0491339365641276
+ "omniscidb_cpu": {
+  "table_head": 0.02566814422607422,
+  "trip_distance_max": 0.026746431986490887,
+  "trip_distance_min": 0.023868560791015625,
+  "trip_distance_mean": 0.02409966786702474,
+  "trip_distance_std": 0.05328488349914551,
+  "trip_distance_sum": 0.02325757344563802,
+  "fare_amount_less_100_sum": 0.028055111567179363,
+  "fare_amount_less_100_mean": 0.026204983393351238,
+  "fare_amount_less_100_std": 0.05381981531778971
+ },
+ "omniscidb_gpu": {
+  "table_head": 0.03336524963378906,
+  "trip_distance_max": 0.022529204686482746,
+  "trip_distance_min": 0.02374553680419922,
+  "trip_distance_mean": 0.021675507227579754,
+  "trip_distance_std": 0.03794423739115397,
+  "trip_distance_sum": 0.022992849349975586,
+  "fare_amount_less_100_sum": 0.025641679763793945,
+  "fare_amount_less_100_mean": 0.024706681569417317,
+  "fare_amount_less_100_std": 0.04151336352030436
  },
  "pandas": {
-  "table_head": 0.00015751520792643228,
-  "trip_distance_max": 0.015662749608357746,
-  "trip_distance_min": 0.016124169031778973,
-  "trip_distance_mean": 0.016112565994262695,
-  "trip_distance_std": 0.03747749328613281,
-  "trip_distance_sum": 0.016038894653320312,
-  "fare_amount_less_100_sum": 0.4740299383799235,
-  "fare_amount_less_100_mean": 0.46591997146606445,
-  "fare_amount_less_100_std": 0.49019575119018555
+  "table_head": 8.280665318171183,
+  "trip_distance_max": 8.269554058710733,
+  "trip_distance_min": 8.223705053329468,
+  "trip_distance_mean": 8.3223344484965,
+  "trip_distance_std": 8.23741857210795,
+  "trip_distance_sum": 8.265352090199789,
+  "fare_amount_less_100_sum": 8.822556336720785,
+  "fare_amount_less_100_mean": 8.763880809148153,
+  "fare_amount_less_100_std": 8.824950774510702
  }
 }

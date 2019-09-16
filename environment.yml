@@ -6,6 +6,7 @@ dependencies:
   - flake8
   - isort
   - matplotlib
+  - omniscidb-cpu
   - pip
   - pytest
   - pre_commit

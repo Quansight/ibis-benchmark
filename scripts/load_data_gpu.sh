@@ -28,18 +28,22 @@ set -ex
 
 PWD="$(dirname "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" )"
 
-# CREATE TABLE
-CMD=$(cat $PWD/scripts/schema/omniscidb.sql)
-echo $(echo "$CMD" | omnisql --db omnisci --user admin --passwd HyperInteractive)
+CMD_CREATE_SCHEMA=$(cat $PWD/scripts/schema/omniscidb.sql)
+CMD_SHOW_TABLES='\t'
+CMD_COPY="COPY nyc_taxi FROM '$PWD/scripts/data/nyc-taxi.csv' WITH (quoted='false');"
+CMD_SELECT_TABLE="SELECT * FROM nyc_taxi LIMIT 1;"
+
+# =============
+# GPU DATA LOAD
+# =============
+
+OMNISCIDB_GPU_PARAMS=" --db omnisci --user admin --passwd HyperInteractive --port 26274"
 
 # CREATE TABLE
-CMD='\t'
-echo $(echo "$CMD" | omnisql --db omnisci --user admin --passwd HyperInteractive)
+echo $(echo "$CMD_CREATE_SCHEMA" | omnisql $OMNISCIDB_GPU_PARAMS)
+echo $(echo "$CMD_SHOW_TABLES" | omnisql $OMNISCIDB_GPU_PARAMS)
 
 # LOAD DATA
-CMD="COPY nyc_taxi FROM '$PWD/scripts/data/nyc-taxi.csv' WITH (quoted='false');"
-echo $CMD
-echo $(echo "$CMD" | omnisql --db omnisci --user admin --passwd HyperInteractive)
-
-CMD="SELECT * FROM nyc_taxi LIMIT 1;"
-echo $(echo "$CMD" | omnisql --db omnisci --user admin --passwd HyperInteractive)
+echo $CMD_COPY
+echo $(echo "$CMD_COPY" | omnisql $OMNISCIDB_GPU_PARAMS)
+echo $(echo "$CMD_SELECT_TABLE" | omnisql $OMNISCIDB_GPU_PARAMS)

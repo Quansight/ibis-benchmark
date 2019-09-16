@@ -19,7 +19,13 @@ def gen_chart(table_name):
     ax.set_xlabel("Execution time (s)")
     ax.set_ylabel("Operation")
 
-    df.T.plot(kind='barh', ax=ax, title='OmniSciDB vs Pandas', grid=True)
+    df.T.plot(
+        kind='barh',
+        ax=ax,
+        title='Ibis with OmniSciDB CPU and OmnisciDB GPU vs Pandas',
+        grid=True,
+        logx=True,
+    )
 
     fig.savefig(
         os.path.join(results_path, 'chart-{}.png'.format(table_name)),
