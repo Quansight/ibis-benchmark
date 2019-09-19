@@ -28,7 +28,9 @@ import ibis
 import pandas as pd
 
 from ibis_benchmark.chart import gen_chart
-from ibis_benchmark.utils import benchmark, register_log
+from ibis_benchmark.utils import benchmark, cacheit, register_log
+
+ExecutionType = ibis.omniscidb.ExecutionType
 
 # start a new benchmark log
 results_path = os.path.join(
@@ -38,31 +40,51 @@ os.makedirs(results_path, exist_ok=True)
 log_path = os.path.join(results_path, 'benchmark-nyc-taxi.json')
 register_log(log_path, new_log=True)
 
-conn_info_cpu = {
+
+conn_info_cpu_cursor = {
     'host': 'localhost',
     'port': 6274,
     'user': 'admin',
     'password': 'HyperInteractive',
     'database': 'omnisci',
+    'execution_type': ExecutionType.CURSOR,
 }
 
-conn_info_gpu = dict(conn_info_cpu)
-conn_info_gpu.update({'port': 26274})
+conn_info_cpu_ipc = dict(conn_info_cpu_cursor)
+conn_info_cpu_ipc.update({'execution_type': ExecutionType.IPC_CPU})
+
+conn_info_gpu_ipc = dict(conn_info_cpu_cursor)
+conn_info_gpu_ipc.update(
+    {'port': 26274, 'execution_type': ExecutionType.IPC_GPU}
+)
 
 # using a persistant connection
-omniscidb_cli_cpu = ibis.omniscidb.connect(**conn_info_cpu)
-omniscidb_cli_gpu = ibis.omniscidb.connect(**conn_info_gpu)
+omniscidb_cli_cpu_cursor = ibis.omniscidb.connect(**conn_info_cpu_cursor)
+omniscidb_cli_cpu_ipc = ibis.omniscidb.connect(**conn_info_cpu_ipc)
+omniscidb_cli_gpu_ipc = ibis.omniscidb.connect(**conn_info_gpu_ipc)
 
 
-def omniscidb_table(name, cpu=True):
+@cacheit
+def omniscidb_table(name, cpu=True, ipc=True):
     if cpu:
-        return omniscidb_cli_cpu.table(name)
-    return omniscidb_cli_gpu.table(name)
+        if ipc:
+            return omniscidb_cli_cpu_ipc.table(name)
+        return omniscidb_cli_cpu_cursor.table(name)
+    # GPU is always ICP
+    return omniscidb_cli_gpu_ipc.table(name)
 
 
+@cacheit
 def pandas_table(name):
     return pd.read_csv('../scripts/data/nyc-taxi.csv')
 
+
+# cache data
+table_name = 'nyc_taxi'
+omniscidb_table(table_name, cpu=True, ipc=True)
+omniscidb_table(table_name, cpu=True, ipc=False)
+omniscidb_table(table_name, cpu=False)
+pandas_table(table_name)
 
 bechmark_config = {'repeat': 3, 'log_path': log_path}
 
@@ -87,7 +109,6 @@ def benchmark_load_pandas():
 """
 
 for op_id, expr_fn in [
-    ('table_head', lambda t: t.head()),
     ('trip_distance_max', lambda t: t.trip_distance.max()),
     ('trip_distance_min', lambda t: t.trip_distance.min()),
     ('trip_distance_mean', lambda t: t.trip_distance.mean()),
@@ -107,16 +128,24 @@ for op_id, expr_fn in [
     ),
 ]:
     # OMNISCIDB
-    @benchmark(backend='omniscidb_cpu', id=op_id, **bechmark_config)
-    def benchmark_omniscidb_cpu():
-        t = omniscidb_table("nyc_taxi")
+    @benchmark(backend='omniscidb_cpu_ipc', id=op_id, **bechmark_config)
+    def benchmark_omniscidb_cpu_ipc():
+        t = omniscidb_table("nyc_taxi", cpu=True, ipc=True)
+        expr = expr_fn(t)
+        result = expr.execute()
+        assert expr is not None
+        assert result is not None
+
+    @benchmark(backend='omniscidb_cpu_cursor', id=op_id, **bechmark_config)
+    def benchmark_omniscidb_cpu_cursor():
+        t = omniscidb_table("nyc_taxi", cpu=True, ipc=False)
         expr = expr_fn(t)
         result = expr.execute()
         assert expr is not None
         assert result is not None
 
     # OMNISCIDB
-    @benchmark(backend='omniscidb_gpu', id=op_id, **bechmark_config)
+    @benchmark(backend='omniscidb_gpu_ipc', id=op_id, **bechmark_config)
     def benchmark_omniscidb_gpu():
         t = omniscidb_table("nyc_taxi", cpu=False)
         expr = expr_fn(t)

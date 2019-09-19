@@ -13,4 +13,4 @@ dependencies:
   - sh
   - pip:
     - seed-isort-config
-    - git+https://github.com/ibis-project/ibis.git@master
+    - git+https://github.com/quansight/ibis.git@add-execution-type

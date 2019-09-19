@@ -36,7 +36,7 @@ conda activate omniscidb-cuda
 conda install -c quansight omniscidb-cuda
 cd $CONDA_PREFIX
 mv bin/omnisci_initdb bin/initdb
-./omnisci_server --port 26274 --calcite-port 26279 --http-port 26278
+./startomnisci --base-port 26275
 ```
 
 It will ask if you want to download and insert sample data, you can answer `n`.
