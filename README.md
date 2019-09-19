@@ -51,6 +51,13 @@ conda env create -n ibis-benchmark --file environment.yml
 conda activate ibis-benchmark
 ```
 
+Install ibis-benchmark in development mode and some libraries that help the 
+develpment:
+
+```
+make develop
+```
+
 To load the data used by this benchark, run the follow commands:
 
 ```sh

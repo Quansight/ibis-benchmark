@@ -16,7 +16,7 @@ clean:
 	rm -rf $(MAKEFILE_DIR)/build $(MAKEFILE_DIR)/dist $(find $(MAKEFILE_DIR) -name __pycache__ -type d)
 
 develop: clean
-	python setup.py develop
+	pip install -e .
 	pre-commit install
 
 stop:
