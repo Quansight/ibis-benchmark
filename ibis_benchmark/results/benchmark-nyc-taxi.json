@@ -1,5 +1,5 @@
 {
- "omniscidb_cpu_ipc": {
+ "ibis_omniscidb_cpu_ipc": {
   "trip_distance_max": 0.8671233654022217,
   "trip_distance_min": 0.85835067431132,
   "trip_distance_mean": 0.8510908285776774,
@@ -9,7 +9,7 @@
   "fare_amount_less_100_mean": 0.8509809176127116,
   "fare_amount_less_100_std": 0.9505401452382406
  },
- "omniscidb_cpu_cursor": {
+ "ibis_omniscidb_cpu_cursor": {
   "trip_distance_max": 0.056943416595458984,
   "trip_distance_min": 0.051325718561808266,
   "trip_distance_mean": 0.05098565419514974,
@@ -19,7 +19,7 @@
   "fare_amount_less_100_mean": 0.05093534787495931,
   "fare_amount_less_100_std": 0.13738512992858887
  },
- "omniscidb_gpu_ipc": {
+ "ibis_omniscidb_gpu_ipc": {
   "trip_distance_max": 0.6306509971618652,
   "trip_distance_min": 0.4664897123972575,
   "trip_distance_mean": 0.547577699025472,

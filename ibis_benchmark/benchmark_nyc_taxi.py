@@ -126,7 +126,7 @@ for op_id, expr_fn in [
     ),
 ]:
     # OMNISCIDB
-    @benchmark(backend='omniscidb_cpu_ipc', id=op_id, **bechmark_config)
+    @benchmark(backend='ibis_omniscidb_cpu_ipc', id=op_id, **bechmark_config)
     def benchmark_omniscidb_cpu_ipc():
         t = omniscidb_table("nyc_taxi", cpu=True, ipc=True)
         expr = expr_fn(t, is_pandas=False)
@@ -134,7 +134,9 @@ for op_id, expr_fn in [
         assert expr is not None
         assert result is not None
 
-    @benchmark(backend='omniscidb_cpu_cursor', id=op_id, **bechmark_config)
+    @benchmark(
+        backend='ibis_omniscidb_cpu_cursor', id=op_id, **bechmark_config
+    )
     def benchmark_omniscidb_cpu_cursor():
         t = omniscidb_table("nyc_taxi", cpu=True, ipc=False)
         expr = expr_fn(t, is_pandas=False)
@@ -143,7 +145,7 @@ for op_id, expr_fn in [
         assert result is not None
 
     # OMNISCIDB
-    @benchmark(backend='omniscidb_gpu_ipc', id=op_id, **bechmark_config)
+    @benchmark(backend='ibis_omniscidb_gpu_ipc', id=op_id, **bechmark_config)
     def benchmark_omniscidb_gpu():
         t = omniscidb_table("nyc_taxi", cpu=False)
         expr = expr_fn(t, is_pandas=False)
