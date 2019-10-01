@@ -91,47 +91,45 @@ bechmark_config = {'repeat': 3, 'log_path': log_path}
 # ==========
 # Benchmarks
 # ==========
-"""
-# load data. it will create a cache for each connection
-op_id = 'backend_load_data'
-@benchmark(backend='omniscidb_cpu', id=op_id, **bechmark_config)
-def benchmark_load_omniscidb_cpu():
-    omniscidb_table('nyc_taxi', cpu=True)
 
-
-@benchmark(backend='omniscidb_gpu', id=op_id, **bechmark_config)
-def benchmark_load_omniscidb_gpu():
-    omniscidb_table('nyc_taxi', cpu=False)
-
-@benchmark(backend='pandas', id=op_id, **bechmark_config)
-def benchmark_load_pandas():
-    pandas_table('nyc_taxi')
-"""
+# added `is_pandas` because ibis cannot apply filter on a column
 
 for op_id, expr_fn in [
-    ('trip_distance_max', lambda t: t.trip_distance.max()),
-    ('trip_distance_min', lambda t: t.trip_distance.min()),
-    ('trip_distance_mean', lambda t: t.trip_distance.mean()),
-    ('trip_distance_std', lambda t: t.trip_distance.std()),
-    ('trip_distance_sum', lambda t: t.trip_distance.sum()),
+    ('trip_distance_max', lambda t, is_pandas: t.trip_distance.max()),
+    ('trip_distance_min', lambda t, is_pandas: t.trip_distance.min()),
+    ('trip_distance_mean', lambda t, is_pandas: t.trip_distance.mean()),
+    ('trip_distance_std', lambda t, is_pandas: t.trip_distance.std()),
+    ('trip_distance_sum', lambda t, is_pandas: t.trip_distance.sum()),
     (
         'fare_amount_less_100_sum',
-        lambda t: t[t.fare_amount < 100].fare_amount.sum(),
+        lambda t, is_pandas: (
+            t[t.fare_amount < 100].fare_amount.sum()
+            if not is_pandas
+            else t.fare_amount[t.fare_amount < 100].sum()
+        ),
     ),
     (
         'fare_amount_less_100_mean',
-        lambda t: t[t.fare_amount < 100].fare_amount.mean(),
+        lambda t, is_pandas: (
+            t[t.fare_amount < 100].fare_amount.mean()
+            if not is_pandas
+            else t.fare_amount[t.fare_amount < 100].mean()
+        ),
     ),
     (
         'fare_amount_less_100_std',
-        lambda t: t[t.fare_amount < 100].fare_amount.std(),
+        lambda t, is_pandas: (
+            t[t.fare_amount < 100].fare_amount.std()
+            if not is_pandas
+            else t.fare_amount[t.fare_amount < 100].std()
+        ),
     ),
 ]:
     # OMNISCIDB
     @benchmark(backend='omniscidb_cpu_ipc', id=op_id, **bechmark_config)
     def benchmark_omniscidb_cpu_ipc():
         t = omniscidb_table("nyc_taxi", cpu=True, ipc=True)
-        expr = expr_fn(t)
+        expr = expr_fn(t, is_pandas=False)
         result = expr.execute()
         assert expr is not None
         assert result is not None
@@ -139,7 +137,7 @@ for op_id, expr_fn in [
     @benchmark(backend='omniscidb_cpu_cursor', id=op_id, **bechmark_config)
     def benchmark_omniscidb_cpu_cursor():
         t = omniscidb_table("nyc_taxi", cpu=True, ipc=False)
-        expr = expr_fn(t)
+        expr = expr_fn(t, is_pandas=False)
         result = expr.execute()
         assert expr is not None
         assert result is not None
@@ -148,7 +146,7 @@ for op_id, expr_fn in [
     @benchmark(backend='omniscidb_gpu_ipc', id=op_id, **bechmark_config)
     def benchmark_omniscidb_gpu():
         t = omniscidb_table("nyc_taxi", cpu=False)
-        expr = expr_fn(t)
+        expr = expr_fn(t, is_pandas=False)
         result = expr.execute()
         assert expr is not None
         assert result is not None
@@ -157,7 +155,7 @@ for op_id, expr_fn in [
     @benchmark(backend='pandas', id=op_id, **bechmark_config)
     def benchmark_pandas():
         t = pandas_table("nyc_taxi")
-        result = expr_fn(t)
+        result = expr_fn(t, is_pandas=True)
         assert result is not None
 
 
