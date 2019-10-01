@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-conda activate omniscidb-cpu
+source activate omniscidb-cpu
 cd $CONDA_PREFIX
 ./startomnisci
