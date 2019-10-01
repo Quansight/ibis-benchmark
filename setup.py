@@ -10,24 +10,37 @@ Ibis Backend Benchmark
 
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
-version = "0.0.0"
+version = '0.0.0'
 with open(
-    os.path.join(PROJECT_PATH, "ibis_benchmark", "__init__.py"), "r"
+    os.path.join(PROJECT_PATH, 'ibis_benchmark', '__init__.py'), 'r'
 ) as f:
     for l in f.readlines():
-        if l.startswith("version"):
-            version = l.split("=")[1].strip()
+        if l.startswith('version'):
+            version = l.split('=')[1].strip()
+
+gh_url = 'https://github.com'
+urls = {
+    'ibis': '{}/Quansight/ibis/archive/add-execution-type.zip'.format(gh_url),
+    'black': '{}/psf/black/archive/master.zip'.format(gh_url),
+    'isort': '{}/timothycrosley/isort/archive/master.zip'.format(gh_url),
+}
 
 install_requires = [
-    "click",
-    "flake8",
-    "ibis-framework",
-    "isort",
-    "seed-isort-config",
-    "sh",
+    'click',
+    'ibis-framework @ {}'.format(urls['ibis']),
+    'matplotlib',
+    'pymapd',
+    'sh',
 ]
 
-develop_requires = ["black", "pre-commit", "pytest"]
+develop_requires = [
+    'black @ {}'.format(urls['black']),
+    'isort @ {}'.format(urls['isort']),
+    'flake8',
+    'pre-commit',
+    'pytest',
+    'seed-isort-config',
+]
 
 all_requires = install_requires + develop_requires
 

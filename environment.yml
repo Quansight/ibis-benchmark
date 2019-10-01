@@ -1,14 +1,24 @@
 channels:
   - conda-forge
+  - nvidia
+  - rapidsai
+  - numba
+  - defaults
 dependencies:
-  - black
   - click
+  - cudatoolkit=10.0
+  - cudf=0.8
   - flake8
-  - isort
+  - matplotlib
+  - omniscidb-cpu
   - pip
+  - pre-commit
+  - pymapd
   - pytest
-  - pre_commit
+  - python=3.6
   - sh
   - pip:
+    - git+https://github.com/psf/black.git@40e8b3a231bade22d838858435a33d60a8325306
+    - git+https://github.com/quansight/ibis.git@add-execution-type
+    - git+https://github.com/timothycrosley/isort.git@18ad293fc9d1852776afe35015a932b68d26fb14
     - seed-isort-config
-    - git+https://github.com/ibis-project/ibis.git@master
