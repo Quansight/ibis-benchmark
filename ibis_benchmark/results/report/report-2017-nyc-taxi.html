@@ -27,7 +27,7 @@ see: https://startbootstrap.com/themes/sb-admin-2/
     rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="template/sb-admin-2.min.css" rel="stylesheet">
+  <link href="static/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -195,12 +195,20 @@ see: https://startbootstrap.com/themes/sb-admin-2/
                           <p>
                             Some considerations about this benchmark:
                             <ul>
-                              <li>Pandas seems to be more effective for simple
-                                operations.</li>
-                              <li>For more complex operations, Ibis OmniSciDB
-                                backend,
-                                using cursor execution type, seems to present a
-                                better performance.
+                              <li>Ibis OmniSciDB backend, using
+                                <code>cursor</code> execution type,
+                                presents a better performance than Pandas and
+                                other Ibis OmniSciDB execution types
+                                for all expressions.
+                              </li>
+                              <li>Ibis OmniSciDB backend using
+                                <code>IPC GPU</code>
+                                presents a better performance than
+                                using <code>IPC CPU</code> for all expressions.
+                              </li>
+                              <li>Pandas presents a better performance than
+                                Ibis OmniSciDB backend using <code>IPC</code>
+                                execution types for simple expressions.
                               </li>
                             </ul>
                           </p>
@@ -280,7 +288,7 @@ see: https://startbootstrap.com/themes/sb-admin-2/
     crossorigin="anonymous"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="template/sb-admin-2.min.js"></script>
+  <script src="static/sb-admin-2.min.js"></script>
 
 </body>
 
