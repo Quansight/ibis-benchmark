@@ -1,42 +1,42 @@
 {
  "omniscidb_cpu_ipc": {
-  "trip_distance_max": 0.11712392171223958,
-  "trip_distance_min": 0.12121335665384929,
-  "trip_distance_mean": 0.11635224024454753,
-  "trip_distance_std": 0.14475488662719727,
-  "trip_distance_sum": 0.11826197306315105,
-  "fare_amount_less_100_sum": 0.12065402666727702,
-  "fare_amount_less_100_mean": 0.12084738413492839,
-  "fare_amount_less_100_std": 0.14648731549580893
+  "trip_distance_max": 0.8671233654022217,
+  "trip_distance_min": 0.85835067431132,
+  "trip_distance_mean": 0.8510908285776774,
+  "trip_distance_std": 0.9598902861277262,
+  "trip_distance_sum": 0.8396399815877279,
+  "fare_amount_less_100_sum": 0.8611683050791422,
+  "fare_amount_less_100_mean": 0.8509809176127116,
+  "fare_amount_less_100_std": 0.9505401452382406
  },
  "omniscidb_cpu_cursor": {
-  "trip_distance_max": 0.022292931874593098,
-  "trip_distance_min": 0.02409807840983073,
-  "trip_distance_mean": 0.025533119837443035,
-  "trip_distance_std": 0.04903952280680338,
-  "trip_distance_sum": 0.020040353139241535,
-  "fare_amount_less_100_sum": 0.023816744486490887,
-  "fare_amount_less_100_mean": 0.02177850405375163,
-  "fare_amount_less_100_std": 0.048142433166503906
+  "trip_distance_max": 0.056943416595458984,
+  "trip_distance_min": 0.051325718561808266,
+  "trip_distance_mean": 0.05098565419514974,
+  "trip_distance_std": 0.14870929718017578,
+  "trip_distance_sum": 0.04930384953816732,
+  "fare_amount_less_100_sum": 0.051746527353922524,
+  "fare_amount_less_100_mean": 0.05093534787495931,
+  "fare_amount_less_100_std": 0.13738512992858887
  },
  "omniscidb_gpu_ipc": {
-  "trip_distance_max": 0.16028237342834473,
-  "trip_distance_min": 0.0630792776743571,
-  "trip_distance_mean": 0.13164782524108887,
-  "trip_distance_std": 0.08000342051188152,
-  "trip_distance_sum": 0.06296761830647786,
-  "fare_amount_less_100_sum": 0.06635642051696777,
-  "fare_amount_less_100_mean": 0.06876532236735027,
-  "fare_amount_less_100_std": 0.07989390691121419
+  "trip_distance_max": 0.6306509971618652,
+  "trip_distance_min": 0.4664897123972575,
+  "trip_distance_mean": 0.547577699025472,
+  "trip_distance_std": 0.5628440380096436,
+  "trip_distance_sum": 0.4680594603220622,
+  "fare_amount_less_100_sum": 0.4901183446248372,
+  "fare_amount_less_100_mean": 0.4595160484313965,
+  "fare_amount_less_100_std": 0.4874589443206787
  },
  "pandas": {
-  "trip_distance_max": 0.02241818110148112,
-  "trip_distance_min": 0.01824490229288737,
-  "trip_distance_mean": 0.018544117609659832,
-  "trip_distance_std": 0.03525892893473307,
-  "trip_distance_sum": 0.017703453699747723,
-  "fare_amount_less_100_sum": 0.045027971267700195,
-  "fare_amount_less_100_mean": 0.03742750485738119,
-  "fare_amount_less_100_std": 0.05646832784016927
+  "trip_distance_max": 0.28170188268025714,
+  "trip_distance_min": 0.3031380971272786,
+  "trip_distance_mean": 0.27955039342244464,
+  "trip_distance_std": 0.5935924847920736,
+  "trip_distance_sum": 0.27694042523701984,
+  "fare_amount_less_100_sum": 0.7401332060496012,
+  "fare_amount_less_100_mean": 0.7314636707305908,
+  "fare_amount_less_100_std": 0.9805221557617188
  }
 }
