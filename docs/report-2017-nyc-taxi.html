@@ -14,7 +14,7 @@ see: https://startbootstrap.com/themes/sb-admin-2/
   <meta name="viewport"
     content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
-  <meta name="author" content="">
+  <meta name="author" content="ivan.ogasawara@quansight.com">
 
   <title>Ibis Benchmark</title>
 
@@ -58,6 +58,12 @@ see: https://startbootstrap.com/themes/sb-admin-2/
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>2017 Yellow Taxi Trip Dataset</span></a>
       </li>
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
     </ul>
     <!-- End of Sidebar -->
 
@@ -78,8 +84,8 @@ see: https://startbootstrap.com/themes/sb-admin-2/
           <!-- Content Row -->
           <div class="row">
 
-            <!-- Objective -->
-            <div class="col-xl-4 col-md-6 mb-4">
+            <!-- Objective:START -->
+            <div class="col-xl-4 col-lg-4 col-md-12 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
@@ -88,26 +94,58 @@ see: https://startbootstrap.com/themes/sb-admin-2/
                         class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                         Objective
                       </div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      <p>
                         This benchmark aims to show the performance in time for
                         some expressions
                         using Ibis with <code>OmniSciDB</code> and
                         <code>Pandas</code>
-                      </div>
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            <!-- Objective:END -->
 
-            <!-- Dataset -->
-            <div class="col-xl-4 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
+
+            <!-- Terminology:START -->
+            <div class="col-xl-4 col-lg-4 col-md-12 mb-4">
+              <div class="card border-left-danger shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div
-                        class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                        Terminology
+                      </div>
+                      <small>
+                        <ul>
+                          <li><code>IPC</code>: Inter Process Communication.
+                            OmniSciDB uses Apache Thrift for IPC.</li>
+                          <li><code>Cursor</code>: Cursors are used by database
+                            programmers to process individual rows returned by
+                            database system queries.
+                          </li>
+                          <li><code>CPU</code>: Central Processing Unit.</li>
+                          <li><code>GPU</code>: Graphics Processing Unit.</li>
+                        </ul>
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Terminology:END -->
+
+
+            <!-- Dataset:START -->
+            <div class="col-xl-4 col-lg-4 col-md-12 mb-4">
+              <div class="card border-left-dark shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div
+                        class="text-xs font-weight-bold text-dark text-uppercase mb-1">
                         Dataset
                       </div>
                       <p>
@@ -129,29 +167,64 @@ see: https://startbootstrap.com/themes/sb-admin-2/
                 </div>
               </div>
             </div>
+            <!-- DATASET:END -->
 
-            <!-- Comparison -->
-            <div class="col-xl-4 col-md-6 mb-4">
-              <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
+          </div>
+
+          <!-- Content Row -->
+
+          <div class="row">
+
+            <!-- Methodology:START -->
+            <div class="col-lg-6 col-md-12 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body ">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div
-                        class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                        Measurement
+                        class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                        Methodology
                       </div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
-                          <ul>
-                            <li>OmniSciDB, using execution types:
-                              <ul>
-                                <li>IPC CPU</li>
-                                <li>IPC GPU</li>
-                                <li>Cursor</li>
-                              </ul>
-                            </li>
-                            <li>Pandas</li>
-                          </ul>
+                          <p>
+                            This benchmark measures the execution time (in
+                            seconds)
+                            consumed by expressions using Ibis OmniSciDB backend
+                            and
+                            pure Pandas. Ibis OmniSciDB backend can be used
+                            using
+                            three differents execution types:
+                            <code>IPC CPU</code>,
+                            <code>IPC GPU</code> and
+                            <code>Cursor</code>.
+
+                            The expressions used by this benchmark are:
+                            <ul>
+                              <li><code>t.trip_distance.max()</code></li>
+                              <li><code>t.trip_distance.min()</code></li>
+                              <li><code>t.trip_distance.mean()</code></li>
+                              <li><code>t.trip_distance.std()</code></li>
+                              <li><code>t.trip_distance.sum()</code></li>
+                              <li>
+                                <code>t[t.fare_amount &lt; 100].fare_amount.mean()</code>
+                              </li>
+                              <li>
+                                <code>t[t.fare_amount &lt; 100].fare_amount.std()</code>
+                              </li>
+                              <li>
+                                <code>t[t.fare_amount &lt; 100].fare_amount.sum()</code>
+                              </li>
+                            </ul>
+                            Where <code>t</code> is the
+                            <code>2017 Yellow Taxi Trip Dataset</code>.
+
+                            The time reported here doesn't considerer the time
+                            for
+                            data loading, eg. <code>Pandas</code>
+                            <code>read_csv</code> or
+                            <code>OmniSciDB</code> <code>COPY FROM</code>
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -159,37 +232,47 @@ see: https://startbootstrap.com/themes/sb-admin-2/
                 </div>
               </div>
             </div>
-          </div>
-
-          <!-- Content Row -->
-
-          <div class="row">
+            <!-- Methodology Result:END -->
 
             <!-- Area Chart -->
-            <div class="col-lg-9 col-md-12">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div
-                  class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Results</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body mx-auto">
-                  <img src='static/chart-nyc-taxi.png' class="px-auto"
-                    style="width:100%" />
+            <div class="col-lg-6 col-md-12 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body ">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div
+                        class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        Results
+                      </div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+
+                          <img src='static/chart-nyc-taxi.png' class="p-auto"
+                            style="width:100%;height:100%" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+            <!-- Area Chart:END -->
 
-            <!-- Descriptive Result -->
-            <div class="col-lg-3 col-md-12">
-              <div class="card shadow py-2">
-                <div class="card-body">
+          </div>
+          <!-- row:END -->
+
+          <!-- row: START -->
+          <div class="row">
+            <!-- Descriptive Result:START -->
+            <div class="col-xl-12">
+              <div class="card shadow border-left-light py-2">
+                <div class="card-body ">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div
                         class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                        Summary</div>
+                        Summary
+                      </div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
                           <p>
@@ -218,10 +301,10 @@ see: https://startbootstrap.com/themes/sb-admin-2/
                   </div>
                 </div>
               </div>
-
             </div>
-
+            <!-- Descriptive Result:END -->
           </div>
+          <!-- row:END -->
 
         </div>
         <!-- /.container-fluid -->
@@ -249,29 +332,6 @@ see: https://startbootstrap.com/themes/sb-admin-2/
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal"
-            aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end
-          your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button"
-            data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Bootstrap/Jquery core JavaScript-->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
