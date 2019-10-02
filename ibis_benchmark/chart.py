@@ -4,7 +4,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 results_path = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), 'results'
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    'docs',
+    'static',
 )
 
 

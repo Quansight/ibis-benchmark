@@ -34,12 +34,14 @@ ExecutionType = ibis.omniscidb.ExecutionType
 
 # start a new benchmark log
 results_path = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), 'results'
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    'docs',
+    'static',
 )
 os.makedirs(results_path, exist_ok=True)
+
 log_path = os.path.join(results_path, 'benchmark-nyc-taxi.json')
 register_log(log_path, new_log=True)
-
 
 conn_info_cpu_cursor = {
     'host': 'localhost',
