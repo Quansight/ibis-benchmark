@@ -26,7 +26,7 @@ def gen_chart(table_name):
         ax=ax,
         title='Ibis with OmniSciDB CPU and OmnisciDB GPU vs Pandas',
         grid=True,
-    )
+    ).legend(loc='best', bbox_to_anchor=(1, 0.5))
 
     fig.savefig(
         os.path.join(results_path, 'chart-{}.png'.format(table_name)),
