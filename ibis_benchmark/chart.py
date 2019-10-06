@@ -17,6 +17,7 @@ def gen_chart(table_name):
     print(df.head())
 
     fig = plt.figure()
+
     ax = fig.add_subplot(1, 1, 1)
     ax.set_xlabel("Execution time (s)")
     ax.set_ylabel("Operation")
@@ -26,7 +27,11 @@ def gen_chart(table_name):
         ax=ax,
         title='Ibis with OmniSciDB CPU and OmnisciDB GPU vs Pandas',
         grid=True,
-    ).legend(loc='best', bbox_to_anchor=(1, 0.5))
+    )
+
+    box = ax.get_position()
+    ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
     fig.savefig(
         os.path.join(results_path, 'chart-{}.png'.format(table_name)),
