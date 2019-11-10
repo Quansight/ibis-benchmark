@@ -28,6 +28,7 @@ import ibis
 import pandas as pd
 
 from ibis_benchmark.chart import gen_chart
+from ibis_benchmark.nyc_taxi import config
 from ibis_benchmark.utils import benchmark, cacheit, register_log
 
 ExecutionType = ibis.omniscidb.ExecutionType
@@ -86,7 +87,7 @@ table_name = 'nyc_taxi'
 omniscidb_table(table_name, cpu=True, ipc=True)
 omniscidb_table(table_name, cpu=True, ipc=False)
 omniscidb_table(table_name, cpu=False)
-pandas_table(table_name)
+# pandas_table(table_name)
 
 bechmark_config = {'repeat': 3, 'log_path': log_path}
 
@@ -96,41 +97,13 @@ bechmark_config = {'repeat': 3, 'log_path': log_path}
 
 # added `is_pandas` because ibis cannot apply filter on a column
 
-for op_id, expr_fn in [
-    ('trip_distance_max', lambda t, is_pandas: t.trip_distance.max()),
-    ('trip_distance_min', lambda t, is_pandas: t.trip_distance.min()),
-    ('trip_distance_mean', lambda t, is_pandas: t.trip_distance.mean()),
-    ('trip_distance_std', lambda t, is_pandas: t.trip_distance.std()),
-    ('trip_distance_sum', lambda t, is_pandas: t.trip_distance.sum()),
-    (
-        'fare_amount_less_100_sum',
-        lambda t, is_pandas: (
-            t[t.fare_amount < 100].fare_amount.sum()
-            if not is_pandas
-            else t.fare_amount[t.fare_amount < 100].sum()
-        ),
-    ),
-    (
-        'fare_amount_less_100_mean',
-        lambda t, is_pandas: (
-            t[t.fare_amount < 100].fare_amount.mean()
-            if not is_pandas
-            else t.fare_amount[t.fare_amount < 100].mean()
-        ),
-    ),
-    (
-        'fare_amount_less_100_std',
-        lambda t, is_pandas: (
-            t[t.fare_amount < 100].fare_amount.std()
-            if not is_pandas
-            else t.fare_amount[t.fare_amount < 100].std()
-        ),
-    ),
-]:
+
+for op_id, expr_fn in config.expr_list:
     # OMNISCIDB
     @benchmark(backend='ibis_omniscidb_cpu_ipc', id=op_id, **bechmark_config)
     def benchmark_omniscidb_cpu_ipc():
         t = omniscidb_table("nyc_taxi", cpu=True, ipc=True)
+        raise Exception(t.head(1).execute().columns)
         expr = expr_fn(t, is_pandas=False)
         result = expr.execute()
         assert expr is not None
