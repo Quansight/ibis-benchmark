@@ -3,11 +3,8 @@ import argparse
 import ibis
 import pandas as pd
 
-from ibis_benchmark.nyc_taxi.config import (
-    bechmark_config,
-    conn_info,
-    expr_list,
-)
+from ibis_benchmark.nyc_taxi.config import bechmark_config, conn_info
+from ibis_benchmark.nyc_taxi.exprs import expr_list
 from ibis_benchmark.utils import benchmark, cacheit
 
 
@@ -16,42 +13,48 @@ def main():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument(
+    group_backend = parser.add_mutually_exclusive_group(required=True)
+
+    group_backend.add_argument(
         '--omniscidb',
         dest='is_omniscidb',
         action='store_true',
         help='Set omniscidb as the default backend.',
     )
 
-    parser.add_argument(
+    group_backend.add_argument(
         '--pandas',
         dest='is_pandas',
         action='store_true',
         help='Set pandas as the default backend.',
     )
 
-    parser.add_argument(
+    conn_type = parser.add_mutually_exclusive_group(required=True)
+
+    conn_type.add_argument(
         '--ipc',
         dest='is_ipc',
         action='store_true',
         help='Set OmniSciDB IPC as default for the connection.',
     )
 
-    parser.add_argument(
+    conn_type.add_argument(
         '--cursor',
         dest='is_cursor',
         action='store_true',
         help='Set OmniSciDB Cursor as default for the connection.',
     )
 
-    parser.add_argument(
+    proc_target = parser.add_mutually_exclusive_group(required=True)
+
+    proc_target.add_argument(
         '--cpu',
         dest='is_cpu',
         action='store_true',
         help='Set OmniSciDB CPU as default for the connection.',
     )
 
-    parser.add_argument(
+    proc_target.add_argument(
         '--gpu',
         dest='is_gpu',
         action='store_true',
@@ -59,19 +62,6 @@ def main():
     )
 
     args = parser.parse_args()
-
-    if args.is_cpu and args.is_gpu or not (args.is_cpu or args.is_gpu):
-        raise Exception('Specify --cpu or --gpu (not both).')
-
-    if (
-        args.is_omniscidb
-        and args.is_pandas
-        or not (args.is_omniscidb or args.is_pandas)
-    ):
-        raise Exception('Specify --omniscidb or --pandas (not both).')
-
-    if args.is_cursor and args.is_ipc or not (args.is_cursor or args.is_ipc):
-        raise Exception('Specify --cursor or --ipc (not both).')
 
     if args.is_pandas:
         benchmark_name = 'pandas'
@@ -102,23 +92,24 @@ def main():
     table_name = 'nyc_taxi'
     table('nyc_taxi')
 
-    for op_id, expr_fn in expr_list:
-        if args.is_omniscidb:
+    if args.is_omniscidb:
+        for op_id, expr_fn in expr_list:
 
             @benchmark(backend=benchmark_name, id=op_id, **bechmark_config)
             def run_benchmark():
                 t = table(table_name)
-                expr = expr_fn(t, is_pandas=False)
+                expr = expr_fn(t)
                 result = expr.execute()
                 assert expr is not None
                 assert result is not None
 
-        else:
+    else:
+        for op_id, expr_fn in expr_list:
 
             @benchmark(backend=benchmark_name, id=op_id, **bechmark_config)
             def run_benchmark():
                 t = table(table_name)
-                result = expr_fn(t, is_pandas=True)
+                result = expr_fn(t)
                 assert result is not None
 
 
