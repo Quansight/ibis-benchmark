@@ -29,6 +29,12 @@ see: https://startbootstrap.com/themes/sb-admin-2/
   <!-- Custom styles for this template-->
   <link href="static/sb-admin-2.min.css" rel="stylesheet">
 
+  <style>
+    .container-fluid p, .container-fluid ul {
+      font-size: 20px!important;
+    }
+  </style>
+
 </head>
 
 <body id="page-top">
@@ -54,9 +60,9 @@ see: https://startbootstrap.com/themes/sb-admin-2/
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="report-2017-nyc-taxi.html">
+        <a class="nav-link" href="report-nyc-taxi.html">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>2017 Yellow Taxi Trip Dataset</span></a>
+          <span>New York City Taxi and For-Hire Vehicle Data</span></a>
       </li>
 
       <!-- Sidebar Toggler (Sidebar) -->
@@ -68,57 +74,96 @@ see: https://startbootstrap.com/themes/sb-admin-2/
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
+    <div id="content-wrapper"
+      class="d-flex flex-column"
+      style="background-color: #ffffff!important;"
+    >
       <!-- Main Content -->
-      <div id="content" class="mt-3">
+      <div id="content" class="mt-3 p-4">
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+        <div class="container-fluid col-xl-8">
 
           <!-- Page Heading -->
           <div
-            class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h1 mb-0 text-gray-800">2017 Yellow Taxi Trip Dataset</h1>
+            class="d-sm-flex align-items-center justify-content-between">
+            <h1 class="h1 mb-0 text-gray-800"><strong>New York City Taxi and For-Hire Vehicle Data</strong></h1>
           </div>
 
-          <!-- Content Row -->
+          <!-- Row:START -->
           <div class="row">
-
             <!-- Objective:START -->
-            <div class="col-xl-4 col-lg-4 col-md-12 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
+            <div class="col">
+              <div class="card border-0">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div
-                        class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                        Objective
-                      </div>
-                      <p>
-                        This benchmark aims to show the performance in time for
-                        some expressions
-                        using Ibis with <code>OmniSciDB</code> and
-                        <code>Pandas</code>
+                    <div class="col">
+                      <p class="size-12">
+                        This document describes a benchmark using New York City Taxi and For-Hire Vehicle Data.
                       </p>
+                      <p>
+                        The data used contains billions of taxi and for-hire vehicle (Uber, Lyft, etc.)
+                        trips originating in New York City since 2009. Most of the
+                        <a href="https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page">raw data</a>
+                        comes from the NYC Taxi & Limousine Commission.
+                      </p>
+                      <p>
+                        This current work was based on a previous works made by
+                        <strong>Todd W. Schneider</strong> and <strong>Mark Litwintschik</strong>.
+                        Some explanations, data structure and scripts for downloading and data loading
+                        were collected and adapted from
+                        <a href="https://github.com/toddwschneider/nyc-taxi-data/">
+                          @toddwschneider GitHub repo
+                        </a> and <a href="https://tech.marksblogg.com/billion-nyc-taxi-rides-redshift.html">
+                          A Billion Taxi Rides in Redshift blog post
+                        </a>.
+                        This text also was adapted from
+                        <a href="https://github.com/toddwschneider/nyc-taxi-data/blob/master/README.md">
+                          toddwschneider/nyc-taxi-data/README.md
+                        </a>.
+                      </p>
+                      <p>
+                        Statistics through June 30, 2019:
+                        <ul>
+                          <li>2.45 billion total trips</li>
+                          <ul>
+                            <li>1.65 billion taxi</li>
+                            <li>800 million for-hire vehicle</li>
+                          </ul>
+                          <li>279 GB of raw data</li>
+                          <li>Database takes up 378 GB on disk with minimal indexes</li>
+                        </ul>
+                      </p>
+                      <p>
+                          This benchmark aims to show the performance in time for
+                          some expressions
+                          using Ibis with <code>OmniSciDB</code> and
+                          <code>Pandas</code>.
+                        </p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <!-- Objective:END -->
-
-
+          </div>
+          <!-- Row:END -->
+          <!-- Row:START -->
+          <div class="row">
             <!-- Terminology:START -->
-            <div class="col-xl-4 col-lg-4 col-md-12 mb-4">
-              <div class="card border-left-danger shadow h-100 py-2">
+            <div class="col">
+              <div class="card border-0">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
+                    <div class="col">
                       <div
-                        class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                        class="text-s font-weight-bold text-dark text-uppercase mb-1">
                         Terminology
                       </div>
-                      <small>
+                      <div>
+                        <p>
+                          Before start, there are some termilogies used in this document that
+                          is explained here to help the reading.
+                        </p>
                         <ul>
                           <li><code>IPC</code>: Inter Process Communication.
                             OmniSciDB uses Apache Thrift for IPC.</li>
@@ -128,77 +173,45 @@ see: https://startbootstrap.com/themes/sb-admin-2/
                           </li>
                           <li><code>CPU</code>: Central Processing Unit.</li>
                           <li><code>GPU</code>: Graphics Processing Unit.</li>
+                          <li><code>Ibis</code>: Python Data Analysis Productivity Framework.</li>
                         </ul>
-                      </small>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <!-- Terminology:END -->
-
-
-            <!-- Dataset:START -->
-            <div class="col-xl-4 col-lg-4 col-md-12 mb-4">
-              <div class="card border-left-dark shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div
-                        class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                        Dataset
-                      </div>
-                      <p>
-                        This benchmarking uses the
-                        <a
-                          href="https://data.cityofnewyork.us/Transportation/2017-Yellow-Taxi-Trip-Data/biws-g3hs">
-                          2017 Yellow Taxi Trip Dataset
-                        </a>
-                      </p>
-                      <p>
-                        The dataset has:
-                        <ul>
-                          <li>Rows: 113M</li>
-                          <li>Columns: 17</li>
-                        </ul>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- DATASET:END -->
-
           </div>
+          <!-- Row:END -->
 
-          <!-- Content Row -->
-
+          <!-- ROW:START -->
           <div class="row">
-
             <!-- Methodology:START -->
-            <div class="col-lg-6 col-md-12 mb-4">
-              <div class="card border-left-warning shadow h-100 py-2">
+            <div class="col">
+              <div class="card border-0">
                 <div class="card-body ">
                   <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
+                    <div class="col">
                       <div
-                        class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                        class="text-s font-weight-bold text-dark text-uppercase mb-1">
                         Methodology
                       </div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
                           <p>
-                            This benchmark measures the execution time (in
-                            seconds)
-                            consumed by expressions using Ibis OmniSciDB backend
-                            and
-                            pure Pandas. Ibis OmniSciDB backend can be used
-                            using
-                            three differents execution types:
+                            This benchmark measures the execution time (in seconds)
+                            consumed by expressions using <code>Ibis OmniSciDB</code> backend and
+                            pure <code>Pandas</code>.
+                          </p>
+                          <p>
+                            <code>Ibis OmniSciDB</code> backend can be used
+                            using three differents execution types:
                             <code>IPC CPU</code>,
                             <code>IPC GPU</code> and
                             <code>Cursor</code>.
-
+                          </p>
+                          <p>
                             The expressions used by this benchmark are:
                             <ul>
                               <li><code>t.trip_distance.max()</code></li>
@@ -216,6 +229,8 @@ see: https://startbootstrap.com/themes/sb-admin-2/
                                 <code>t[t.fare_amount &lt; 100].fare_amount.sum()</code>
                               </li>
                             </ul>
+                          </p>
+                          <p>
                             Where <code>t</code> is the
                             <code>2017 Yellow Taxi Trip Dataset</code>.
 
@@ -241,15 +256,18 @@ see: https://startbootstrap.com/themes/sb-admin-2/
               </div>
             </div>
             <!-- Methodology Result:END -->
-
+          </div>
+          <!-- Row:END -->
+          <!-- Row:START -->
+          <div class="row">
             <!-- Area Chart -->
-            <div class="col-lg-6 col-md-12 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
+            <div class="col">
+              <div class="card border-0">
                 <div class="card-body ">
                   <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
+                    <div class="col">
                       <div
-                        class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        class="text-s font-weight-bold text-dark text-uppercase mb-1">
                         Results
                       </div>
                       <div class="row no-gutters align-items-center">
@@ -265,20 +283,19 @@ see: https://startbootstrap.com/themes/sb-admin-2/
               </div>
             </div>
             <!-- Area Chart:END -->
-
           </div>
           <!-- row:END -->
 
           <!-- row: START -->
           <div class="row">
             <!-- Descriptive Result:START -->
-            <div class="col-xl-12">
-              <div class="card shadow border-left-light py-2">
+            <div class="col">
+              <div class="card border-0 py-2">
                 <div class="card-body ">
                   <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
+                    <div class="col">
                       <div
-                        class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                        class="text-s font-weight-bold text-dark text-uppercase mb-1">
                         Summary
                       </div>
                       <div class="row no-gutters align-items-center">
@@ -316,13 +333,13 @@ see: https://startbootstrap.com/themes/sb-admin-2/
 
           <div class="row">
             <!-- Hardware:START -->
-            <div class="col-xl-12 col-lg-12 col-md-12 mb-4">
-                <div class="card border-left-dark shadow h-100 py-2">
+            <div class="col">
+                <div class="card border-0">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
+                      <div class="col">
                         <div
-                          class="text-xs font-weight-bold text-dark text-uppercase mb-1">
+                          class="text-s font-weight-bold text-dark text-uppercase mb-1">
                           Hardware information
                         </div>
                         <p>
