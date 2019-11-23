@@ -30,8 +30,9 @@ see: https://startbootstrap.com/themes/sb-admin-2/
   <link href="static/sb-admin-2.min.css" rel="stylesheet">
 
   <style>
-    .container-fluid p, .container-fluid ul {
-      font-size: 20px!important;
+    .container-fluid p,
+    .container-fluid ul {
+      font-size: 20px !important;
     }
   </style>
 
@@ -74,19 +75,17 @@ see: https://startbootstrap.com/themes/sb-admin-2/
     <!-- End of Sidebar -->
 
     <!-- Content Wrapper -->
-    <div id="content-wrapper"
-      class="d-flex flex-column"
-      style="background-color: #ffffff!important;"
-    >
+    <div id="content-wrapper" class="d-flex flex-column"
+      style="background-color: #ffffff!important;">
       <!-- Main Content -->
       <div id="content" class="mt-3 p-4">
         <!-- Begin Page Content -->
         <div class="container-fluid col-xl-8">
 
           <!-- Page Heading -->
-          <div
-            class="d-sm-flex align-items-center justify-content-between">
-            <h1 class="h1 mb-0 text-gray-800"><strong>New York City Taxi and For-Hire Vehicle Data</strong></h1>
+          <div class="d-sm-flex align-items-center justify-content-between">
+            <h1 class="h1 mb-0 text-gray-800"><strong>New York City Taxi and
+                For-Hire Vehicle Data</strong></h1>
           </div>
 
           <!-- Row:START -->
@@ -98,47 +97,77 @@ see: https://startbootstrap.com/themes/sb-admin-2/
                   <div class="row no-gutters align-items-center">
                     <div class="col">
                       <p class="size-12">
-                        This document describes a benchmark using New York City Taxi and For-Hire Vehicle Data.
+                        On August 12th, 2016, <strong>Mark Litwintschik</strong>
+                        published a blog post called
+                        <strong>
+                          <a
+                            href="https://tech.marksblogg.com/billion-nyc-taxi-rides-nvidia-pascal-titan-x-mapd.html">
+                            1.1 Billion Taxi Rides with MapD & 8 Nvidia Pascal
+                            Titan Xs
+                          </a>
+                        </strong>.
+                        We reproduced the approach provided by this post to
+                        create a benchmark using <code>Ibis</code> with
+                        <strong>
+                          New York City Taxi and For-Hire Vehicle Dataset
+                        </strong>.
                       </p>
                       <p>
-                        The data used contains billions of taxi and for-hire vehicle (Uber, Lyft, etc.)
-                        trips originating in New York City since 2009. Most of the
-                        <a href="https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page">raw data</a>
-                        comes from the NYC Taxi & Limousine Commission.
+                        The data acquisition and cleaning used by
+                        <strong>Mark Litwintschik</strong> was described in his
+                        another blog post on 13th Febrary, 2016, called
+                        <strong>
+                          <a
+                            href="https://tech.marksblogg.com/billion-nyc-taxi-rides-redshift.html">
+                            A Billion Taxi Rides in Redshift
+                          </a>
+                        </strong>.
                       </p>
                       <p>
-                        This current work was based on a previous works made by
-                        <strong>Todd W. Schneider</strong> and <strong>Mark Litwintschik</strong>.
-                        Some explanations, data structure and scripts for downloading and data loading
-                        were collected and adapted from
-                        <a href="https://github.com/toddwschneider/nyc-taxi-data/">
-                          @toddwschneider GitHub repo
-                        </a> and <a href="https://tech.marksblogg.com/billion-nyc-taxi-rides-redshift.html">
-                          A Billion Taxi Rides in Redshift blog post
+                        The mentioned blog post was based on another blog post
+                        published by <strong>Todd W. Schneider</strong> called
+                        <strong>
+                          <a
+                            href="https://toddwschneider.com/posts/analyzing-1-1-billion-nyc-taxi-and-uber-trips-with-a-vengeance/">
+                            Analyzing 1.1 Billion NYC Taxi and Uber Trips, with
+                            a Vengeance
+                          </a>
+                        </strong>.
+                        The repository that contains the scripts and
+                        explanations about how to download and clean the data
+                        can be accessed at
+                        <a
+                          href="https://github.com/toddwschneider/nyc-taxi-data/">
+                          @toddwschneider's GitHub repo
                         </a>.
-                        This text also was adapted from
-                        <a href="https://github.com/toddwschneider/nyc-taxi-data/blob/master/README.md">
-                          toddwschneider/nyc-taxi-data/README.md
+                      </p>
+                      <p>
+                        Also, both the two Mark's blog post, mentioned before,
+                        give more extra details to prepare the data that should
+                        be used to load the data to <code>OmniSciDB</code>
+                        database.
+                      </p>
+                      <p>
+                        All the code used to replicate the data acquisition and
+                        cleaning, mentioned before, and the current benchmark
+                        scripts are stored into
+                        <a href="https://github.com/Quansight/ibis-benchmark">
+                          Ibis-benchmark repo
                         </a>.
+                        For information about how to replicate this benchmark,
+                        check out the
+                        <strong>
+                          <a
+                            href="https://github.com/Quansight/ibis-benchmark/tree/improve-queries/ibis_benchmark/nyc_taxi">
+                            README.md
+                          </a> file.
+                        </strong>
                       </p>
                       <p>
-                        Statistics through June 30, 2019:
-                        <ul>
-                          <li>2.45 billion total trips</li>
-                          <ul>
-                            <li>1.65 billion taxi</li>
-                            <li>800 million for-hire vehicle</li>
-                          </ul>
-                          <li>279 GB of raw data</li>
-                          <li>Database takes up 378 GB on disk with minimal indexes</li>
-                        </ul>
+                        This benchmark aims to show the performance in time for
+                        some expressions using Ibis with
+                        <code>OmniSciDB</code> and <code>Pandas</code>.
                       </p>
-                      <p>
-                          This benchmark aims to show the performance in time for
-                          some expressions
-                          using Ibis with <code>OmniSciDB</code> and
-                          <code>Pandas</code>.
-                        </p>
                     </div>
                   </div>
                 </div>
@@ -161,7 +190,8 @@ see: https://startbootstrap.com/themes/sb-admin-2/
                       </div>
                       <div>
                         <p>
-                          Before start, there are some termilogies used in this document that
+                          Before start, there are some termilogies used in this
+                          document that
                           is explained here to help the reading.
                         </p>
                         <ul>
@@ -173,7 +203,8 @@ see: https://startbootstrap.com/themes/sb-admin-2/
                           </li>
                           <li><code>CPU</code>: Central Processing Unit.</li>
                           <li><code>GPU</code>: Graphics Processing Unit.</li>
-                          <li><code>Ibis</code>: Python Data Analysis Productivity Framework.</li>
+                          <li><code>Ibis</code>: Python Data Analysis
+                            Productivity Framework.</li>
                         </ul>
                       </div>
                     </div>
@@ -200,53 +231,81 @@ see: https://startbootstrap.com/themes/sb-admin-2/
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
                           <p>
-                            This benchmark measures the execution time (in seconds)
-                            consumed by expressions using <code>Ibis OmniSciDB</code> backend and
-                            pure <code>Pandas</code>.
+                            This benchmark measures the execution time (in
+                            seconds) consumed by expressions using
+                            <code>Ibis OmniSciDB</code> backend, with
+                            <code>OmniSciDB CPU</code> and
+                            <code>OmniSciDB CPU</code>, and pure
+                            <code>Pandas</code>.
                           </p>
                           <p>
                             <code>Ibis OmniSciDB</code> backend can be used
-                            using three differents execution types:
+                            with three differents execution types:
                             <code>IPC CPU</code>,
                             <code>IPC GPU</code> and
                             <code>Cursor</code>.
                           </p>
                           <p>
-                            The expressions used by this benchmark are:
+                            The expressions used by this benchmark was based on
+                            the queries used by
+                            <a
+                              href="https://tech.marksblogg.com/billion-nyc-taxi-rides-nvidia-pascal-titan-x-mapd.html">
+                              1.1 Billion Taxi Rides with MapD & 8 Nvidia Pascal
+                              Titan Xs
+                            </a> blog post
+                            :
                             <ul>
-                              <li><code>t.trip_distance.max()</code></li>
-                              <li><code>t.trip_distance.min()</code></li>
-                              <li><code>t.trip_distance.mean()</code></li>
-                              <li><code>t.trip_distance.std()</code></li>
-                              <li><code>t.trip_distance.sum()</code></li>
                               <li>
-                                <code>t[t.fare_amount &lt; 100].fare_amount.mean()</code>
+                                <code><pre>t[t.cab_type, t.count()].group_by(t.cab_type)</pre></code>
                               </li>
                               <li>
-                                <code>t[t.fare_amount &lt; 100].fare_amount.std()</code>
+                                <code>
+                                  <pre>
+t[
+  t.passenger_count, t.total_amount.mean().name('total_amount_mean')
+].group_by(t.passenger_count)
+                                  </pre>
+                                </code>
                               </li>
                               <li>
-                                <code>t[t.fare_amount &lt; 100].fare_amount.sum()</code>
+                                <code>
+                                  <pre>
+t[
+  t.passenger_count,
+  t.pickup_datetime.year().name('pickup_year'),
+  t.count().name('pickup_year_count'),
+].group_by([t.passenger_count, t.pickup_year]),
+                                  </pre>
+                                </code>
+                              </li>
+                              <li>
+                                <code>
+                                  <pre>
+t[
+  t.passenger_count,
+  t.pickup_datetime.year().name('pickup_year'),
+  t.trip_distance.cast(int).name('distance'),
+  t.count().name('the_count'),
+]
+.group_by([t.passenger_count, t.pickup_year, t.distance])
+.order_by([t.pickup_year, t.the_count], asc=False),
+                                  </pre>
+                                </code>
                               </li>
                             </ul>
                           </p>
                           <p>
-                            Where <code>t</code> is the
-                            <code>2017 Yellow Taxi Trip Dataset</code>.
-
-                            The time reported here doesn't considerer the time
-                            for
-                            data loading, eg. <code>Pandas</code>
-                            <code>read_csv</code> or
-                            <code>OmniSciDB</code> <code>COPY FROM</code>
+                            Where <code>t</code> is the <strong>trip</strong>
+                            table that contains
+                            <strong>
+                              New York City Taxi and For-Hire Vehicle Data
+                            </strong>.
                           </p>
                           <p>
-                            For more information about the benchmark, check it
-                            out its source code
-                            <a
-                              href="https://github.com/quansight/ibis-benchmark"
-                              target="_blank"
-                            >here</a>.
+                            The time reported here doesn't considerer the time
+                            for data loading, eg. <code>Pandas</code>
+                            <code>read_csv</code> or
+                            <code>OmniSciDB</code> <code>COPY FROM</code>
                           </p>
                         </div>
                       </div>
@@ -303,19 +362,25 @@ see: https://startbootstrap.com/themes/sb-admin-2/
                           <p>
                             Some considerations about this benchmark:
                             <ul>
-                              <li>Ibis OmniSciDB backend, using
+                              <li>
+                                <code>Ibis OmniSciDB</code> backend, using
                                 <code>cursor</code> execution type,
-                                presents a better performance than Pandas and
-                                other Ibis OmniSciDB execution types
-                                for all expressions.
+                                presents a better performance than
+                                <code>Pandas</code> and other
+                                <code>Ibis OmniSciDB</code>
+                                execution types for <strong>all</strong>
+                                expressions.
                               </li>
-                              <li>Ibis OmniSciDB backend using
+                              <li>
+                                <code>Ibis OmniSciDB</code> backend using
                                 <code>IPC GPU</code>
                                 presents a better performance than
                                 using <code>IPC CPU</code> for all expressions.
                               </li>
-                              <li>Pandas presents a better performance than
-                                Ibis OmniSciDB backend using <code>IPC</code>
+                              <li>
+                                <code>Pandas</code> presents a better
+                                performance than <code>Ibis OmniSciDB</code>
+                                backend using <code>IPC</code>
                                 execution types for simple expressions.
                               </li>
                             </ul>
@@ -334,18 +399,19 @@ see: https://startbootstrap.com/themes/sb-admin-2/
           <div class="row">
             <!-- Hardware:START -->
             <div class="col">
-                <div class="card border-0">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col">
-                        <div
-                          class="text-s font-weight-bold text-dark text-uppercase mb-1">
-                          Hardware information
-                        </div>
-                        <p>
-                          This benchmarking have been ran in a computer with the following specification:
-                        </p>
-                        <pre>
+              <div class="card border-0">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col">
+                      <div
+                        class="text-s font-weight-bold text-dark text-uppercase mb-1">
+                        Hardware information
+                      </div>
+                      <p>
+                        This benchmarking have been ran in a computer with the
+                        following specification:
+                      </p>
+                      <pre>
   Architecture:        x86_64
   CPU op-mode(s):      32-bit, 64-bit
   Byte Order:          Little Endian
@@ -375,10 +441,10 @@ see: https://startbootstrap.com/themes/sb-admin-2/
   NUMA node3 CPU(s):   18-23,42-47
   MemTotal:            131947616 kB
                         </pre>
-                        <p>
-                          GPU Information
-                        </p>
-                        <pre>
+                      <p>
+                        GPU Information
+                      </p>
+                      <pre>
   +-----------------------------------------------------------------------------+
   | NVIDIA-SMI 430.50       Driver Version: 430.50       CUDA Version: 10.1     |
   |-------------------------------+----------------------+----------------------+
@@ -392,10 +458,10 @@ see: https://startbootstrap.com/themes/sb-admin-2/
   | 35%   53C    P0     1W / 260W |      0MiB / 48600MiB |      0%      Default |
   +-------------------------------+----------------------+----------------------+
                         </pre>
-                        <p>
-                          Disk Partition Information
-                        </p>
-                        <pre>
+                      <p>
+                        Disk Partition Information
+                      </p>
+                      <pre>
   NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
   sda           8:0    0   3.7T  0 disk
   └─sda1        8:1    0   3.7T  0 part /work
@@ -404,12 +470,12 @@ see: https://startbootstrap.com/themes/sb-admin-2/
   ├─nvme0n1p2 259:2    0     1K  0 part
   └─nvme0n1p5 259:3    0 853.9G  0 part /
                         </pre>
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <!-- HARDWARE:END -->
+            </div>
+            <!-- HARDWARE:END -->
           </div>
 
         </div>
