@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS tmp_points;
+
 CREATE TABLE tmp_points AS
 SELECT
   id,
@@ -9,10 +11,14 @@ WHERE pickup_longitude IS NOT NULL OR dropoff_longitude IS NOT NULL;
 CREATE INDEX ON tmp_points USING gist (pickup);
 CREATE INDEX ON tmp_points USING gist (dropoff);
 
+DROP TABLE IF EXISTS tmp_pickups;
+
 CREATE TABLE tmp_pickups AS
 SELECT t.id, n.gid
 FROM tmp_points t, nyct2010 n
 WHERE ST_Within(t.pickup, n.geom);
+
+DROP TABLE IF EXISTS tmp_dropoffs;
 
 CREATE TABLE tmp_dropoffs AS
 SELECT t.id, n.gid

@@ -112,3 +112,6 @@ venv.bak/
 
 # wheels
 /pip-wheel-metadata/
+
+# omniscidb
+omnisql_history.txt

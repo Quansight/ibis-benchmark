@@ -1,5 +1,7 @@
 CREATE EXTENSION postgis;
 
+DROP TABLE IF EXISTS green_tripdata_staging;
+
 CREATE TABLE green_tripdata_staging (
   id serial primary key,
   vendor_id text,
@@ -36,6 +38,8 @@ but data actually has 22 or 23 columns per row, which COPY doesn't like.
 junk1 and junk2 should always be null
 */
 
+DROP TABLE IF EXISTS yellow_tripdata_staging;
+
 CREATE TABLE yellow_tripdata_staging (
   id serial primary key,
   vendor_id text,
@@ -64,6 +68,8 @@ CREATE TABLE yellow_tripdata_staging (
   junk2 text
 );
 
+DROP TABLE IF EXISTS uber_trips_2014;
+
 CREATE TABLE uber_trips_2014 (
   id serial primary key,
   pickup_datetime timestamp without time zone,
@@ -71,6 +77,8 @@ CREATE TABLE uber_trips_2014 (
   pickup_longitude numeric,
   base_code text
 );
+
+DROP TABLE IF EXISTS fhv_trips_staging;
 
 CREATE TABLE fhv_trips_staging (
   dispatching_base_num text,

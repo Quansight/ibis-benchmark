@@ -1,8 +1,10 @@
 #!/bin/bash
 
-mkdir -p data/unaltered
+mkdir -p ${IBIS_BENCHMARK_DOWNLOAD}/unaltered
 
-mv data/yellow_tripdata_2010-02.csv data/yellow_tripdata_2010-03.csv data/unaltered/
+mv ${IBIS_BENCHMARK_DOWNLOAD}/yellow_tripdata_2010-02.csv \
+   ${IBIS_BENCHMARK_DOWNLOAD}/yellow_tripdata_2010-03.csv \
+   ${IBIS_BENCHMARK_DOWNLOAD}/unaltered/
 
-sed -E '/(.*,){18,}/d' data/unaltered/yellow_tripdata_2010-02.csv > data/yellow_tripdata_2010-02.csv
-sed -E '/(.*,){18,}/d' data/unaltered/yellow_tripdata_2010-03.csv > data/yellow_tripdata_2010-03.csv
+sed -E '/(.*,){18,}/d' ${IBIS_BENCHMARK_DOWNLOAD}/unaltered/yellow_tripdata_2010-02.csv > ${IBIS_BENCHMARK_DOWNLOAD}/yellow_tripdata_2010-02.csv
+sed -E '/(.*,){18,}/d' ${IBIS_BENCHMARK_DOWNLOAD}/unaltered/yellow_tripdata_2010-03.csv > ${IBIS_BENCHMARK_DOWNLOAD}/yellow_tripdata_2010-03.csv

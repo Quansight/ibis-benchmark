@@ -1,10 +1,20 @@
 # New York City Taxi and For-Hire Vehicle Data
 
-This benchmark analyzes data for billions of taxi and for-hire vehicle (Uber, Lyft, etc.) trips originating in New York City since 2009. Most of the [raw data](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page) comes from the NYC Taxi & Limousine Commission.
+This benchmark analyzes data for billions of taxi and for-hire vehicle (Uber, Lyft, etc.) 
+trips originating in New York City since 2009. Most of the 
+[raw data](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page) 
+comes from the NYC Taxi & Limousine Commission.
 
-This benchmark was based in a previous work did by `Mark Litwintschik`. Some explanations, data structure and scripts for downloading was got from [@toddwschneider GitHub repo](https://github.com/toddwschneider/nyc-taxi-data/). Also, this current document was adapted from `https://github.com/toddwschneider/nyc-taxi-data/blob/master/README.md`.
+This benchmark was based in a previous works did by `Todd W. Schneider` and `Mark Litwintschik`. 
+Some explanations, data structure and scripts for downloading and data loading was collected from
+[@toddwschneider GitHub repo](https://github.com/toddwschneider/nyc-taxi-data/). Also, this 
+current document was adapted from 
+`https://github.com/toddwschneider/nyc-taxi-data/blob/master/README.md`. Additionally,
+the scripts in this repo use and adapt some scripts and command line from `Mark Litwintschik`
+blog post [A Billion Taxi Rides in Redshift](https://tech.marksblogg.com/billion-nyc-taxi-rides-redshift.html)
 
-This benchmark compares the time spent for ibis expressions executed on OmniSciDB and the respective expression  on pure Pandas.
+The current benchmark compares the time spent for ibis expressions executed on OmniSciDB CPU and GPU 
+and the respective expression on pure Pandas.
 
 Statistics through June 30, 2019:
 
@@ -16,72 +26,89 @@ Statistics through June 30, 2019:
 
 ## Instructions
 
-##### 1. Install and run OmniSciDB-CPU and OmniSciDB-GPU using conda
+Before run the benchmark, first the data should be downloaded. As the data is 
+not ready for `OmniSciDB`, it will be loaded first to PostgreSQL/PostGIS\*. 
+Once the data is completed loaded into PostgreSQL, a script will export data 
+from PostgreSQL to `csv` files and it should be loaded to OmniSciDB CPU and GPU.
 
-For installing and running OmniSciDB-CPU, in a terminal, run:
+<small>
+* As the original script use the `COPY` command with fields as parameters for 
+header, and OmniSciDB doesn't support that yet.
+</small>
+
+### 1. Install and run databases servers
+
+For this benchmark, OmniSciDB CPU and GPU and PostgreSQL/PostGIS will be installed
+inside a conda environment.
+
+#### 1.1 Install and run OmniSciDB-CPU and OmniSciDB-GPU using conda
+
+Check the instructions on the main [README.md](../README.md) file, 
+in section `Install and run OmniSciDB-CPU and OmniSciDB-GPU using conda`.
+
+
+#### 1.2 Install and run PostgreSQL/PostGIS using conda
+
+For installing and running PostgreSQL/PostGIS, in a terminal, run:
 
 ```sh
-# create a conda environment and install omniscidb-cpu
-conda create -n omniscidb-cpu -c conda-forge omniscidb-cpu
-# activate omniscidb-cpu conda environemtn
-source activate omniscidb-cpu
-# rename initdb to pg_initdb
-cp $CONDA_PREFIX/bin/initdb pg_initdb
-# rename initdb to pg_initdb
-cp $CONDA_PREFIX/bin/omnisci_initdb initdb
-# deactivate the environment
-source deactivate
-# start omniscidb-cpu
-cd scripts && ./start_omniscidb_cpu.sh
+# create a conda environment for postgresql/postgis
+# and install postgis with python 3.7
+conda create -n postgresql postgis python=3.7
+# activate postgresql environment
+conda activate postgresql
+# initialize the database postgresql and specify the data directory
+initdb --username=$(whoami) -D /work/$(whoami)/postgresql-data
+# start the postgresql server with the data directory created
+postgres -D /work/$(whoami)/postgresql-data
+
+# TODO: specify data directory using environment variable
 ```
 
-For installing and running OmniSciDB-GPU, in another terminal, run:
+### 2. Download raw data
+
+To download the main data, run the follow code in a terminal:
 
 ```sh
-# create a conda environment and install omniscidb-gpu
-conda create -n omniscidb-gpu -c quansight omniscidb-gpu
-# activate omniscidb-gpu conda environemtn
-source activate omniscidb-gpu
-# rename initdb to pg_initdb
-cp $CONDA_PREFIX/bin/initdb pg_initdb
-# rename initdb to pg_initdb
-cp $CONDA_PREFIX/bin/omnisci_initdb initdb
-# deactivate the environment
-source deactivate
-# start omniscidb-gpu
-cd scripts && ./start_omniscidb_gpu.sh
+# download taxi data 
+IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download ./download_raw_data.sh
+# remove bad rows
+IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download ./remove_bad_rows.sh
 ```
 
-##### 2. Download raw data
-
-`./download_raw_data.sh && ./remove_bad_rows.sh`
-
-The `remove_bad_rows.sh` script fixes two particular files that have a few rows with too many columns. See the "data issues" section below for more.
+The `remove_bad_rows.sh` script fixes two particular files that have a few rows with too many columns. 
+See the "data issues" section below for more.
 
 Note that the raw data is hundreds of GB, so it will take a while to download.
 
-##### 3. Initialize database and set up schema
+The [FiveThirtyEight Uber dataset](https://github.com/fivethirtyeight/uber-tlc-foil-response) contains 
+Uber trip records from Apr–Sep 2014. Uber and other FHV (Lyft, Juno, Via, etc.) 
+data is available since Jan 2015 in the TLC's data.
+
+To download this extra data, run the follow code in a terminal:
+
+```sh
+IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download ./download_raw_2014_uber_data.sh
+```
+
+### 3. Initialize database and set up schema
 
 `./initialize_database.sh`
 
-##### 4. Import taxi and FHV data
+### 4. Import taxi, FHV and FiveThirtyEight Uber data
 
-`./import_trip_data.sh`
-
-
-`./import_fhv_trip_data.sh`
+```sh
+# import data trip
+IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download ./import_trip_data.sh
+# import data trip fhv (for-hire vehicle)
+IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download ./import_fhv_trip_data.sh
+# import uber data
+IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download ./import_2014_uber_trip_data.sh
+```
 
 The full import process takes ~36 hours on a 2013 MacBook Pro with 16 GB of RAM.
 
-##### 5. Optional: download and import 2014 Uber data
-
-The [FiveThirtyEight Uber dataset](https://github.com/fivethirtyeight/uber-tlc-foil-response) contains Uber trip records from Apr–Sep 2014. Uber and other FHV (Lyft, Juno, Via, etc.) data is available since Jan 2015 in the TLC's data.
-
-`./download_raw_2014_uber_data.sh`
-<br>
-`./import_2014_uber_trip_data.sh`
-
-##### 6. Analysis
+### 5. Analysis
 
 The expressions used by this benchmark are listed into expr_list at `exprs.py`
 
@@ -110,18 +137,6 @@ These are bundled with the repository, so no need to download separately, but:
 - Two of the `yellow` taxi raw data files had a small number of rows containing extra columns. I discarded these rows
 - The official NYC neighborhood tabulation areas (NTAs) included in the census tracts shapefile are not exactly what I would have expected. Some of them are bizarrely large and contain more than one neighborhood, e.g. "Hudson Yards-Chelsea-Flat Iron-Union Square", while others are confusingly named, e.g. "North Side-South Side" for what I'd call "Williamsburg", and "Williamsburg" for what I'd call "South Williamsburg". In a few instances I modified NTA names, but I kept the NTA geographic definitions
 - The shapefile includes only NYC census tracts. Trips to New Jersey, Long Island, Westchester, and Connecticut are not mapped to census tracts, with the exception of the Newark Airport
-
-## TLC summary statistics
-
-There's a Ruby script in the `tlc_statistics/` folder to import data from the TLC's [summary statistics reports](https://www1.nyc.gov/site/tlc/about/aggregated-reports.page):
-
-`ruby import_statistics_data.rb`
-
-These summary statistics are used in the [NYC Taxi & Ridehailing Stats](https://toddwschneider.com/dashboards/nyc-taxi-ridehailing-uber-lyft-data/) dashboard
-
-## Taxi vs. Citi Bike comparison
-
-Code in support of the post ["When Are Citi Bikes Faster Than Taxis in New York City?"](https://toddwschneider.com/posts/taxi-vs-citi-bike-nyc/) lives in the `citibike_comparison/` folder
 
 ## 2017 update
 

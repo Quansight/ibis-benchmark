@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DATA_DIR=${IBIS_BENCHMARK_DOWNLOAD}
+
 year_month_regex="tripdata_([0-9]{4})-([0-9]{2})"
 
 green_schema_pre_2015="(vendor_id,lpep_pickup_datetime,lpep_dropoff_datetime,store_and_fwd_flag,rate_code_id,pickup_longitude,pickup_latitude,dropoff_longitude,dropoff_latitude,passenger_count,trip_distance,fare_amount,extra,mta_tax,tip_amount,tolls_amount,ehail_fee,total_amount,payment_type,trip_type,junk1,junk2)"
@@ -27,7 +29,7 @@ yellow_schema_2019_h1="(vendor_id,tpep_pickup_datetime,tpep_dropoff_datetime,pas
 # if 2010-02 and 2010-03 yellow files give errors about extra columns, remove offending rows:
 # ./remove_bad_rows.sh
 
-for filename in data/green_tripdata*.csv; do
+for filename in ${DATA_DIR}/green_tripdata*.csv; do
   [[ $filename =~ $year_month_regex ]]
   year=${BASH_REMATCH[1]}
   month=$((10#${BASH_REMATCH[2]}))
@@ -53,7 +55,7 @@ for filename in data/green_tripdata*.csv; do
   echo "`date`: loaded trips for ${filename}"
 done;
 
-for filename in data/yellow_tripdata*.csv; do
+for filename in ${DATA_DIR}/yellow_tripdata*.csv; do
   [[ $filename =~ $year_month_regex ]]
   year=${BASH_REMATCH[1]}
   month=$((10#${BASH_REMATCH[2]}))

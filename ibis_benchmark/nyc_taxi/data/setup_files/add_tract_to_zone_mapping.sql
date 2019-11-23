@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS nyct2010_taxi_zones_mapping;
+
 CREATE TABLE nyct2010_taxi_zones_mapping AS
 SELECT
   ct.gid AS nyct2010_gid,

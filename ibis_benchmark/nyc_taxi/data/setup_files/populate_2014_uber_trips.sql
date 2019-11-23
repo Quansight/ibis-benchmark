@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS tmp_points;
+
 CREATE TABLE tmp_points AS
 SELECT
   id,
@@ -5,6 +7,8 @@ SELECT
 FROM uber_trips_2014;
 
 CREATE INDEX ON tmp_points USING gist (pickup);
+
+DROP TABLE IF EXISTS tmp_pickups;
 
 CREATE TABLE tmp_pickups AS
 SELECT t.id, z.locationid
