@@ -1,13 +1,10 @@
 #!/bin/bash
 
-DATA_DIR=${IBIS_BENCHMARK_DATA_PREPARED}
+DATA_DIR=${IBIS_BENCHMARK_DATA_CLEANED}
 
-for filename in $DATA_DIR/trips/*.csv; do
+for filename in ${DATA_DIR}/trips/*.csv; do
       echo "COPY trips
-            FROM '/theHoard/trips/$filename'
+            FROM '$filename'
             WITH (header='false');" | \
-          mapdql \
-              mapd \
-              -u $MAPD_USERNAME \
-              -p $MAPD_PASSWORD
+          omnisql -u admin -p HyperInteractive --port $OMNISCI_PORT
   done

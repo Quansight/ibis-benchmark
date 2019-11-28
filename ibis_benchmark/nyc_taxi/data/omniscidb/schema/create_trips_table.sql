@@ -23,8 +23,6 @@ CREATE TABLE trips (
     total_amount            DECIMAL(14,2),
     payment_type            VARCHAR(3) ENCODING DICT,
     trip_type               SMALLINT,
-    pickup                  VARCHAR(50) ENCODING DICT,
-    dropoff                 VARCHAR(50) ENCODING DICT,
 
     cab_type                VARCHAR(6) ENCODING DICT,
 

@@ -25,6 +25,8 @@ cp $CONDA_PREFIX/bin/initdb pg_initdb
 cp $CONDA_PREFIX/bin/omnisci_initdb initdb
 # deactivate the environment
 source deactivate
+# export env variables
+export OMNISCIDB_CPU_DATA_DIR=/work/$(whoami)/omniscidb-cpu-data
 # start omniscidb-cpu
 cd scripts && ./start_omniscidb_cpu.sh
 ```

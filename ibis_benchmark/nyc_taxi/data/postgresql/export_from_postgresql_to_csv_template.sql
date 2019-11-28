@@ -21,17 +21,23 @@ COPY (
            trips.total_amount,
            trips.payment_type,
            trips.trip_type,
-           trips.pickup,
-           trips.dropoff,
+           -- trips.pickup,
+           -- trips.dropoff,
 
            cab_types.type cab_type,
 
-           weather.precipitation_tenths_of_mm rain,
-           weather.snow_depth_mm,
-           weather.snowfall_mm,
-           weather.max_temperature_tenths_degrees_celsius max_temp,
-           weather.min_temperature_tenths_degrees_celsius min_temp,
-           weather.average_wind_speed_tenths_of_meters_per_second wind,
+           -- weather.precipitation_tenths_of_mm rain,
+           weather.precipitation rain,
+           -- weather.snow_depth_mm,
+           weather.snow_depth snow_depth_mm,
+           -- weather.snowfall_mm,
+           weather.snowfall snowfall_mm,
+           -- weather.max_temperature_tenths_degrees_celsius max_temp,
+           weather.max_temperature max_temp,
+           -- weather.min_temperature_tenths_degrees_celsius min_temp,
+           weather.min_temperature min_temp,
+           -- weather.average_wind_speed_tenths_of_meters_per_second wind,
+           weather.average_wind_speed wind,
 
            pick_up.gid pickup_nyct2010_gid,
            pick_up.ctlabel pickup_ctlabel,
@@ -57,7 +63,7 @@ COPY (
     FROM trips
     LEFT JOIN cab_types
         ON trips.cab_type_id = cab_types.id
-    LEFT JOIN central_park_weather_observations_raw weather
+    LEFT JOIN central_park_weather_observations weather
         ON weather.date = trips.pickup_datetime::date
     LEFT JOIN nyct2010 pick_up
         ON pick_up.gid = trips.pickup_nyct2010_gid

@@ -8,7 +8,9 @@ fhv_schema_2017_h2="(dispatching_base_num,pickup_datetime,dropoff_datetime,picku
 fhv_schema_2018="(pickup_datetime,dropoff_datetime,pickup_location_id,dropoff_location_id,shared_ride,dispatching_base_num,junk)"
 fhv_schema_2019="(dispatching_base_num,pickup_datetime,dropoff_datetime,pickup_location_id,dropoff_location_id,shared_ride)"
 
-for filename in data/fhv_tripdata*.csv; do
+DATA_DIR=${IBIS_BENCHMARK_DOWNLOAD}
+
+for filename in $DATA_DIR/fhv_tripdata*.csv; do
   [[ $filename =~ $year_month_regex ]]
   year=${BASH_REMATCH[1]}
   month=$((10#${BASH_REMATCH[2]}))
@@ -34,7 +36,7 @@ done;
 
 fhvhv_schema="(hvfhs_license_num,dispatching_base_num,pickup_datetime,dropoff_datetime,pickup_location_id,dropoff_location_id,shared_ride)"
 
-for filename in data/fhvhv_tripdata*.csv; do
+for filename in $DATA_DIR/fhvhv_tripdata*.csv; do
   echo "`date`: beginning load for ${filename}"
   cat $filename | psql nyc-taxi-data -c "COPY fhv_trips_staging ${fhvhv_schema} FROM stdin CSV HEADER;"
   echo "`date`: finished raw load for ${filename}"

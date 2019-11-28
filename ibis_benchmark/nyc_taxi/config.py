@@ -21,7 +21,9 @@ conn_info['gpu_ipc'].update({'port': 26274, 'ipc': True, 'gpu_device': 1})
 
 # start a new benchmark log
 results_path = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    ),
     'docs',
     'static',
 )

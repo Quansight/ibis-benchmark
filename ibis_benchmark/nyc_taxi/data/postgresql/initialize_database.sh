@@ -1,6 +1,6 @@
 #!/bin/bash
 
-createdb nyc-taxi-data
+# createdb nyc-taxi-data
 
 psql nyc-taxi-data -f setup_files/create_nyc_taxi_schema.sql
 

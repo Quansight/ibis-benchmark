@@ -71,7 +71,7 @@ To download the main data, run the follow code in a terminal:
 
 ```sh
 # export IBIS_BENCHMARK_DOWNLOAD with the desired folder for download
-IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download
+export IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download
 # download taxi data
 ./download_raw_data.sh
 # remove bad rows
@@ -91,7 +91,7 @@ To download this extra data, run the follow code in a terminal:
 
 ```sh
 # export IBIS_BENCHMARK_DOWNLOAD with the desired folder for download
-IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download
+export IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download
 # download raw data for uber trips
 ./download_raw_2014_uber_data.sh
 ```
@@ -115,7 +115,7 @@ initial data.
 
 ```sh
 # export IBIS_BENCHMARK_DOWNLOAD with the desired folder for download
-IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download
+export IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download
 # import data trip
  ./import_trip_data.sh
 # import data trip fhv (for-hire vehicle)
@@ -126,7 +126,57 @@ IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download
 
 The full import process takes ~36 hours on a 2013 MacBook Pro with 16 GB of RAM.
 
-### 4. Analysis
+### 4. Export normalized data to CSV files
+
+```sh
+# export IBIS_BENCHMARK_DOWNLOAD with the desired folder for download
+export IBIS_BENCHMARK_DOWNLOAD=/work/$(whoami)/ibis-benchmark-download
+export IBIS_BENCHMARK_DATA_CLEANED=/work/$(whoami)/ibis-benchmark-data-cleaned
+# run
+./export_from_postgresql_to_csv.sh
+```
+
+### 5. Load data into OmniSciDB CPU and GPU
+
+CPU
+```sh
+# create table schema
+OMNISCI_PORT=6274 ./create_table.sh
+# export ibis benchmark data cleaned
+export IBIS_BENCHMARK_DATA_CLEANED=/work/$(whoami)/ibis-benchmark-data-cleaned
+# load data
+OMNISCI_PORT=6274 ./load_data.sh
+```
+
+### 6. Analysis
+
+```
+nyc-taxi-data=# SELECT relname table_name,
+nyc-taxi-data-#        lpad(to_char(reltuples, 'FM9,999,999,999'), 13) row_count
+nyc-taxi-data-# FROM pg_class
+nyc-taxi-data-# LEFT JOIN pg_namespace
+nyc-taxi-data-#     ON (pg_namespace.oid = pg_class.relnamespace)
+nyc-taxi-data-# WHERE nspname NOT IN ('pg_catalog', 'information_schema')
+nyc-taxi-data-# AND relkind = 'r'
+nyc-taxi-data-# ORDER BY reltuples DESC;
+            table_name             |   row_count   
+-----------------------------------+---------------
+ trips                             | 1,648,177,408
+ fhv_trips                         |   791,372,544
+ spatial_ref_sys                   |         8,500
+ central_park_weather_observations |         3,833
+ nyct2010                          |         2,168
+ nyct2010_taxi_zones_mapping       |         2,167
+ fhv_bases                         |         1,097
+ taxi_zones                        |           263
+ hvfhs_licenses                    |             0
+ yellow_tripdata_staging           |             0
+ uber_trips_2014                   |             0
+ fhv_trips_staging                 |             0
+ green_tripdata_staging            |             0
+ cab_types                         |             0
+(14 rows)
+```
 
 The expressions used by this benchmark are listed into expr_list at `exprs.py`.
 

@@ -89,8 +89,8 @@ def main():
             return cli.table(name)
 
     # cache data
-    table_name = 'nyc_taxi'
-    table('nyc_taxi')
+    table_name = 'trips'
+    table(table_name)
 
     if args.is_omniscidb:
         for op_id, expr_fn in expr_list:
@@ -99,11 +99,14 @@ def main():
             def run_benchmark():
                 t = table(table_name)
                 expr = expr_fn(t)
+                print(op_id)
+                print(expr.compile())
                 result = expr.execute()
                 assert expr is not None
                 assert result is not None
 
     else:
+        raise Exception('it is not pandas')
         for op_id, expr_fn in expr_list:
 
             @benchmark(backend=benchmark_name, id=op_id, **bechmark_config)
