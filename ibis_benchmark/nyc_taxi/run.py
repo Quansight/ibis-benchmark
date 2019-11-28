@@ -99,8 +99,6 @@ def main():
             def run_benchmark():
                 t = table(table_name)
                 expr = expr_fn(t)
-                print(op_id)
-                print(expr.compile())
                 result = expr.execute()
                 assert expr is not None
                 assert result is not None

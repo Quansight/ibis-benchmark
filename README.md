@@ -34,21 +34,18 @@ cd scripts && ./start_omniscidb_cpu.sh
 For installing and running OmniSciDB-GPU, in another terminal, run:
 
 ```sh
-# create a conda environment and install omniscidb-gpu
-conda create -n omniscidb-gpu -c quansight omniscidb-gpu
-# activate omniscidb-gpu conda environemtn
-source activate omniscidb-gpu
-# rename initdb to pg_initdb
-cp $CONDA_PREFIX/bin/initdb pg_initdb
-# rename initdb to pg_initdb
-cp $CONDA_PREFIX/bin/omnisci_initdb initdb
-# deactivate the environment
-source deactivate
+# create a conda environment and install omniscidb-cuda
+conda create -n omniscidb-cuda -c quansight omniscidb-cuda
+# export env variables
+export OMNISCIDB_CPU_DATA_DIR=/work/$(whoami)/omniscidb-cpu-data
 # start omniscidb-gpu
-cd scripts && ./start_omniscidb_gpu.sh
+cd scripts && ./start_omniscidb_cuda.sh
 ```
 
-
+It is not possible to use both OmniSciDB CPU and CUDA at the same time 
+using the same data directory. So for this reason, the benchmark should
+be run separated for each server.
+ 
 ### Ibis-benchmark
 
 To prepare the conda environment, run:
