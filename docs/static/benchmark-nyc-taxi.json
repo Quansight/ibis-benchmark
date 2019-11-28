@@ -1,1 +1,14 @@
-{}
+{
+ "omniscidb_cpu_cursor": {
+  "trip_count_cab_type": 0.45602138837178546,
+  "trip_passenger_total_amount_mean": 0.8798993428548177,
+  "trip_group_by_passenger_count_and_pickup_year": 0.8517470359802246,
+  "trip_grouped_by_passenger_count_and_pickup_year_and_distance": 4.142744938532512
+ },
+ "omniscidb_cpu_ipc": {
+  "trip_count_cab_type": 0.5278703371683756,
+  "trip_passenger_total_amount_mean": 0.8741947015126547,
+  "trip_group_by_passenger_count_and_pickup_year": 0.8708624045054117,
+  "trip_grouped_by_passenger_count_and_pickup_year_and_distance": 4.2215635776519775
+ }
+}

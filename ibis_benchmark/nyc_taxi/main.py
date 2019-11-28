@@ -1,5 +1,6 @@
 import os
 
+from ibis_benchmark.chart import gen_chart
 from ibis_benchmark.nyc_taxi import config
 from ibis_benchmark.utils import register_log
 
@@ -10,3 +11,6 @@ os.system('python run.py --omniscidb --cpu --cursor')
 os.system('python run.py --omniscidb --cpu --ipc')
 # os.system('python run.py --omniscidb --gpu --ipc')
 # os.system('python run.py --pandas')
+
+# generate a comparison chart
+gen_chart('nyc-taxi')
