@@ -55,8 +55,8 @@ def main():
     )
 
     proc_target.add_argument(
-        '--gpu',
-        dest='is_gpu',
+        '--cuda',
+        dest='is_cuda',
         action='store_true',
         help='Set OmniSciDB GPU as default for the connection.',
     )
@@ -74,7 +74,7 @@ def main():
         if args.is_cpu:
             conn_name = 'cpu'
         else:
-            conn_name = 'gpu'
+            conn_name = 'cuda'
 
         if args.is_cursor:
             conn_name += '_cursor'

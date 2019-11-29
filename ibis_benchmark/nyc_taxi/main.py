@@ -40,18 +40,21 @@ def main():
     )
 
     ns = parser.parse_args()
+    runpy_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), 'run.py'
+    )
 
     if ns.reset_results:
         # start a new benchmark log
         register_log(config.log_path, new_log=True)
         return
     elif ns.is_omniscidb_cpu:
-        os.system('python run.py --omniscidb --cpu --cursor')
-        os.system('python run.py --omniscidb --cpu --ipc')
+        os.system('python {} --omniscidb --cpu --cursor'.format(runpy_file))
+        os.system('python {} --omniscidb --cpu --ipc'.format(runpy_file))
     elif ns.is_omniscidb_cuda:
-        os.system('python run.py --omniscidb --gpu --ipc')
+        os.system('python {} --omniscidb --cuda --ipc'.format(runpy_file))
     elif ns.is_pandas:
-        os.system('python run.py --pandas')
+        os.system('python {} --pandas'.format(runpy_file))
 
     # generate a comparison chart
     gen_chart('nyc-taxi')

@@ -1,20 +1,20 @@
 {
  "omniscidb_cpu_cursor": {
-  "trip_count_cab_type": 2.271809180577596,
-  "trip_passenger_total_amount_mean": 1.5038437048594158,
-  "trip_group_by_passenger_count_and_pickup_year": 0.8539751370747884,
-  "trip_grouped_by_passenger_count_and_pickup_year_and_distance": 5.711333592732747
+  "trip_count_cab_type": 2.2433951695760093,
+  "trip_passenger_total_amount_mean": 1.4884685675303142,
+  "trip_group_by_passenger_count_and_pickup_year": 0.8593664169311523,
+  "trip_grouped_by_passenger_count_and_pickup_year_and_distance": 5.7314151128133135
  },
  "omniscidb_cpu_ipc": {
-  "trip_count_cab_type": 0.7326412200927734,
-  "trip_passenger_total_amount_mean": 0.8879449367523193,
-  "trip_group_by_passenger_count_and_pickup_year": 0.8714512983957926,
-  "trip_grouped_by_passenger_count_and_pickup_year_and_distance": 4.311679283777873
+  "trip_count_cab_type": 0.7580085595448812,
+  "trip_passenger_total_amount_mean": 0.8778728644053141,
+  "trip_group_by_passenger_count_and_pickup_year": 0.8783919811248779,
+  "trip_grouped_by_passenger_count_and_pickup_year_and_distance": 4.231396357218425
  },
- "omniscidb_gpu_ipc": {
-  "trip_count_cab_type": 1.8418479760487874,
-  "trip_passenger_total_amount_mean": 1.6283951600392659,
-  "trip_group_by_passenger_count_and_pickup_year": 0.8335721492767334,
-  "trip_grouped_by_passenger_count_and_pickup_year_and_distance": 2.015394449234009
+ "omniscidb_cuda_ipc": {
+  "trip_count_cab_type": 1.8612178961435955,
+  "trip_passenger_total_amount_mean": 1.572952667872111,
+  "trip_group_by_passenger_count_and_pickup_year": 0.8280782699584961,
+  "trip_grouped_by_passenger_count_and_pickup_year_and_distance": 1.9393291473388672
  }
 }

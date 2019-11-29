@@ -15,8 +15,8 @@ conn_info = {
 conn_info['cpu_ipc'] = dict(conn_info['cpu_cursor'])
 conn_info['cpu_ipc'].update({'ipc': True})
 
-conn_info['gpu_ipc'] = dict(conn_info['cpu_cursor'])
-conn_info['gpu_ipc'].update({'port': 26274, 'ipc': True, 'gpu_device': 1})
+conn_info['cuda_ipc'] = dict(conn_info['cpu_cursor'])
+conn_info['cuda_ipc'].update({'port': 26274, 'ipc': True, 'gpu_device': 1})
 
 
 # start a new benchmark log

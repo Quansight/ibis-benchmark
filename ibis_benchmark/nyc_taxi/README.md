@@ -136,49 +136,89 @@ export IBIS_BENCHMARK_DATA_CLEANED=/work/$(whoami)/ibis-benchmark-data-cleaned
 ./export_from_postgresql_to_csv.sh
 ```
 
-### 5. Load data into OmniSciDB CPU and GPU
+### 5. Load data into OmniSciDB database
 
-CPU
+Now, the data is ready to be loaded into OmniSciDB database.
+
+To save space in disk, we can reuse the same data directory for both OmniSciDB
+CPU and CUDA. So, to load the data into OmniSciDB data directory we can use
+just OmniSciDB CPU.
+
+So first, start the OmniSciDB CPU database:
+
+```sh
+# export env variables
+export OMNISCIDB_DATA_DIR=/work/$(whoami)/omniscidb-data
+# start omniscidb-cpu
+./scripts/start_omniscidb_cpu.sh
+```
+
+Run the `create_table.sh` file to create the initial table and `load_._data.sh`
+to load the data from the CSVs files to OmniSciDB database.
+
 ```sh
 # create table schema
-OMNISCI_PORT=6274 ./create_table.sh
+OMNISCI_PORT=6274 ./ibis_benchmark/nyc_taxi/data/omniscidb/create_table.sh
 # export ibis benchmark data cleaned
 export IBIS_BENCHMARK_DATA_CLEANED=/work/$(whoami)/ibis-benchmark-data-cleaned
 # load data
-OMNISCI_PORT=6274 ./load_data.sh
+OMNISCI_PORT=6274 ./ibis_benchmark/nyc_taxi/data/omniscidb/load_data.sh
 ```
 
-### 6. Analysis
+### 6. Run the benchmark
 
-```
-nyc-taxi-data=# SELECT relname table_name,
-nyc-taxi-data-#        lpad(to_char(reltuples, 'FM9,999,999,999'), 13) row_count
-nyc-taxi-data-# FROM pg_class
-nyc-taxi-data-# LEFT JOIN pg_namespace
-nyc-taxi-data-#     ON (pg_namespace.oid = pg_class.relnamespace)
-nyc-taxi-data-# WHERE nspname NOT IN ('pg_catalog', 'information_schema')
-nyc-taxi-data-# AND relkind = 'r'
-nyc-taxi-data-# ORDER BY reltuples DESC;
-            table_name             |   row_count   
------------------------------------+---------------
- trips                             | 1,648,177,408
- fhv_trips                         |   791,372,544
- spatial_ref_sys                   |         8,500
- central_park_weather_observations |         3,833
- nyct2010                          |         2,168
- nyct2010_taxi_zones_mapping       |         2,167
- fhv_bases                         |         1,097
- taxi_zones                        |           263
- hvfhs_licenses                    |             0
- yellow_tripdata_staging           |             0
- uber_trips_2014                   |             0
- fhv_trips_staging                 |             0
- green_tripdata_staging            |             0
- cab_types                         |             0
-(14 rows)
+First, prepare the conda environment needed by the benchmark:
+
+```sh
+# create a conda environment needed by benchmark
+conda env create -n ibis-benchmark --file ./environment.yml
+# activate the ibis-benchmark conda environment
+conda activate ibis-benchmark
+# install ibis-benchmark
+make develop
 ```
 
-The expressions used by this benchmark are listed into expr_list at `exprs.py`.
+Start a new benchmark:
+
+```sh
+# reset previous results
+python ibis_benchmark/main.py --reset-result 
+```
+
+In a new terminal, start OmniSciDB CPU:
+
+```sh
+# export env variables
+export OMNISCIDB_DATA_DIR=/work/$(whoami)/omniscidb-data
+# start omniscidb-cpu
+./scripts/start_omniscidb_cpu.sh
+```
+
+On `ibis-benchmark` conda environment, run the benchmark for OmniSciDB CPU:
+
+```sh
+python ibis_benchmark/nyc_taxi/main.py --omniscidb-cpu
+```
+
+Now, the first results are ready on `./docs/static/benchmark-nyc-txi.json`.
+
+The next step is run the benchmark for OmniSciDB CUDA. First, ensure that
+the OmniSciDB CPU is not running. So, in a new terminal, start OmniSciDB CUDA:
+
+```sh
+# export env variables
+export OMNISCIDB_DATA_DIR=/work/$(whoami)/omniscidb-data
+# start omniscidb-cpu
+./scripts/start_omniscidb_cuda.sh
+```
+
+On `ibis-benchmark` conda environment, run the benchmark for OmniSciDB CUDA:
+
+```sh
+python ibis_benchmark/nyc_taxi/main.py --omniscidb-cuda
+```
+
+All expressions used by this benchmark are listed into expr_list at `exprs.py`.
 
 ## Schema
 
