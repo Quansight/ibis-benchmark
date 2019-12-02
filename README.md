@@ -1,46 +1,50 @@
-# ibis-benchmark
+# Ibis Benchmark
 
 The goal of this project is the measuring of some expressions using 
 `Ibis` with `OmniSciDB` `CPU` and `GPU` and pure `Pandas`.
+
+The current benchmark was tested in a Ubuntu machine with kernel 4.15.0-62-generic.
 
 ## Environment
 
 First, it is necessary to prepare the environments and install and start 
 the servers.
 
-### OmniSciDB CPU
+### Install and run OmniSciDB-CPU and OmniSciDB-GPU using conda
 
-To prepare and install `OmniSciDB` for `CPU`, open a new terminal and run the
-following commands:
-
-```sh
-conda create -n omniscidb-cpu
-conda activate omniscidb-cpu
-conda install -c conda-forge omniscidb-cpu
-cd $CONDA_PREFIX
-mv bin/omnisci_initdb bin/initdb
-./startomnisci
-```
-
-It will ask if you want to download and insert sample data, you can answer `n`.
-
-
-### OmniSciDB GPU (CUDA)
-
-To prepare and install `OmniSciDB` for `GPU` (CUDA), open a new terminal and run the
-following commands:
+For installing and running OmniSciDB-CPU, in a terminal, run:
 
 ```sh
-conda create -n omniscidb-cuda
-conda activate omniscidb-cuda
-conda install -c quansight omniscidb-cuda
-cd $CONDA_PREFIX
-mv bin/omnisci_initdb bin/initdb
-./startomnisci --base-port 26275
+# create a conda environment and install omniscidb-cpu
+conda create -n omniscidb-cpu -c conda-forge omniscidb-cpu
+# activate omniscidb-cpu conda environemtn
+source activate omniscidb-cpu
+# rename initdb to pg_initdb
+cp $CONDA_PREFIX/bin/initdb pg_initdb
+# rename initdb to pg_initdb
+cp $CONDA_PREFIX/bin/omnisci_initdb initdb
+# deactivate the environment
+source deactivate
+# export env variables
+export OMNISCIDB_DATA_DIR=/work/$(whoami)/omniscidb-data
+# start omniscidb-cpu
+cd scripts && ./start_omniscidb_cpu.sh
 ```
 
-It will ask if you want to download and insert sample data, you can answer `n`.
+For installing and running OmniSciDB-CUDA, in another terminal, run:
 
+```sh
+# create a conda environment and install omniscidb-cuda
+conda create -n omniscidb-cuda -c quansight omniscidb-cuda
+# export env variables
+export OMNISCIDB_DATA_DIR=/work/$(whoami)/omniscidb-data
+# start omniscidb-cuda
+cd scripts && ./start_omniscidb_cuda.sh
+```
+
+It is not possible to use both OmniSciDB CPU and CUDA at the same time 
+using the same data directory. So for this reason, the benchmark should
+be run separated for each server.
 
 ### Ibis-benchmark
 
@@ -58,6 +62,8 @@ develpment:
 make develop
 ```
 
+## NYC Taxi Benchmark
+
 To load the data used by this benchark, run the follow commands:
 
 ```sh
@@ -67,13 +73,11 @@ cd scripts
 ./load_data_gpu.sh
 ```
 
-## Benchmark
-
 To run the benchmark, follow the commands bellow:
 
 ```sh
-cd ~/ibis_benchmark
-python benchmark_nyc_taxi.py
+cd ./ibis_benchmark/nyc_taxi
+python main.py
 ```
 
 The results is stored at `ibis_benchmark/results/`. 

@@ -22,12 +22,16 @@ def gen_chart(table_name):
     ax.set_xlabel("Execution time (s)")
     ax.set_ylabel("Operation")
 
-    df.T.plot(
-        kind='barh',
-        ax=ax,
-        title='Ibis with OmniSciDB CPU and OmnisciDB GPU vs Pandas',
-        grid=True,
-    )
+    try:
+        df.T.plot(
+            kind='barh',
+            ax=ax,
+            title='Ibis with OmniSciDB CPU and OmnisciDB GPU vs Pandas',
+            grid=True,
+        )
+    except TypeError as e:
+        print(e)
+        return
 
     box = ax.get_position()
     ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])

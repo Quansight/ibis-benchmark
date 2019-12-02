@@ -1,0 +1,527 @@
+<!--
+This page use the template provided by SB Admin 2.
+SB Admin 2 is a free, open source, Bootstrap 4 based.
+see: https://startbootstrap.com/themes/sb-admin-2/
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="ivan.ogasawara@quansight.com">
+
+  <title>Ibis Benchmark</title>
+
+  <!-- Custom fonts for this template-->
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+    rel="stylesheet" type="text/css">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="static/sb-admin-2.min.css" rel="stylesheet">
+
+  <style>
+    .container-fluid p,
+    .container-fluid ul {
+      font-size: 20px !important;
+    }
+  </style>
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+      id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center"
+        href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-kiwi-bird"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Ibis Benchmark</div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item active">
+        <a class="nav-link" href="report-nyc-taxi.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>New York City Taxi and For-Hire Vehicle Data</span></a>
+      </li>
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column"
+      style="background-color: #ffffff!important;">
+      <!-- Main Content -->
+      <div id="content" class="mt-3 p-4">
+        <!-- Begin Page Content -->
+        <div class="container-fluid col-xl-8">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between">
+            <h1 class="h1 mb-0 text-gray-800"><strong>New York City Taxi and
+                For-Hire Vehicle Data</strong></h1>
+          </div>
+
+          <!-- Row:START -->
+          <div class="row">
+            <!-- Objective:START -->
+            <div class="col">
+              <div class="card border-0">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col">
+                      <p class="size-12">
+                        On August 12th, 2016, <strong>Mark Litwintschik</strong>
+                        published a blog post called
+                        <strong>
+                          <a
+                            href="https://tech.marksblogg.com/billion-nyc-taxi-rides-nvidia-pascal-titan-x-mapd.html">
+                            1.1 Billion Taxi Rides with MapD & 8 Nvidia Pascal
+                            Titan Xs
+                          </a>
+                        </strong>.
+                        We reproduced the approach provided by this post to
+                        create a benchmark using <code>Ibis</code> with
+                        <strong>
+                          New York City Taxi and For-Hire Vehicle Dataset
+                        </strong>.
+                      </p>
+                      <p>
+                        The data acquisition and cleaning used by
+                        <strong>Mark Litwintschik</strong> was described in his
+                        another blog post on 13th Febrary, 2016, called
+                        <strong>
+                          <a
+                            href="https://tech.marksblogg.com/billion-nyc-taxi-rides-redshift.html">
+                            A Billion Taxi Rides in Redshift
+                          </a>
+                        </strong>.
+                      </p>
+                      <p>
+                        The mentioned blog post was based on another blog post
+                        published by <strong>Todd W. Schneider</strong> called
+                        <strong>
+                          <a
+                            href="https://toddwschneider.com/posts/analyzing-1-1-billion-nyc-taxi-and-uber-trips-with-a-vengeance/">
+                            Analyzing 1.1 Billion NYC Taxi and Uber Trips, with
+                            a Vengeance
+                          </a>
+                        </strong>.
+                        The repository that contains the scripts and
+                        explanations about how to download and clean the data
+                        can be accessed at
+                        <a
+                          href="https://github.com/toddwschneider/nyc-taxi-data/">
+                          @toddwschneider's GitHub repo
+                        </a>.
+                      </p>
+                      <p>
+                        Also, both the two Mark's blog post, mentioned before,
+                        give more extra details to prepare the data that should
+                        be used to load the data to <code>OmniSciDB</code>
+                        database.
+                      </p>
+                      <p>
+                        All the code used to replicate the data acquisition and
+                        cleaning, mentioned before, and the current benchmark
+                        scripts are stored into
+                        <a href="https://github.com/Quansight/ibis-benchmark">
+                          Ibis-benchmark repo
+                        </a>.
+                        For information about how to replicate this benchmark,
+                        check out the
+                        <strong>
+                          <a
+                            href="https://github.com/Quansight/ibis-benchmark/tree/improve-queries/ibis_benchmark/nyc_taxi">
+                            README.md
+                          </a> file.
+                        </strong>
+                      </p>
+                      <p>
+                        This benchmark aims to show the performance in time for
+                        some expressions using Ibis with
+                        <code>OmniSciDB</code> and <code>Pandas</code>.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Objective:END -->
+          </div>
+          <!-- Row:END -->
+          <!-- Row:START -->
+          <div class="row">
+            <!-- Terminology:START -->
+            <div class="col">
+              <div class="card border-0">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col">
+                      <div
+                        class="text-s font-weight-bold text-dark text-uppercase mb-1">
+                        Terminology
+                      </div>
+                      <div>
+                        <p>
+                          Before start, there are some termilogies used in this
+                          document that
+                          is explained here to help the reading.
+                        </p>
+                        <ul>
+                          <li><code>IPC</code>: Inter Process Communication.
+                            OmniSciDB uses Apache Thrift for IPC.</li>
+                          <li><code>Cursor</code>: Cursors are used by database
+                            programmers to process individual rows returned by
+                            database system queries.
+                          </li>
+                          <li><code>CPU</code>: Central Processing Unit.</li>
+                          <li><code>GPU</code>: Graphics Processing Unit.</li>
+                          <li><code>Ibis</code>: Python Data Analysis
+                            Productivity Framework.</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Terminology:END -->
+          </div>
+          <!-- Row:END -->
+
+          <!-- ROW:START -->
+          <div class="row">
+            <!-- Methodology:START -->
+            <div class="col">
+              <div class="card border-0">
+                <div class="card-body ">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col">
+                      <div
+                        class="text-s font-weight-bold text-dark text-uppercase mb-1">
+                        Methodology
+                      </div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <p>
+                            This benchmark measures the execution time (in
+                            seconds) consumed by expressions using
+                            <code>Ibis OmniSciDB</code> backend, with
+                            <code>OmniSciDB CPU</code> and
+                            <code>OmniSciDB CPU</code>, and pure
+                            <code>Pandas</code>.
+                          </p>
+                          <p>
+                            <code>Ibis OmniSciDB</code> backend can be used
+                            with three differents execution types:
+                            <code>IPC CPU</code>,
+                            <code>IPC GPU</code> and
+                            <code>Cursor</code>.
+                          </p>
+                          <p>
+                            The expressions used by this benchmark was based on
+                            the queries used by
+                            <a
+                              href="https://tech.marksblogg.com/billion-nyc-taxi-rides-nvidia-pascal-titan-x-mapd.html">
+                              1.1 Billion Taxi Rides with MapD & 8 Nvidia Pascal
+                              Titan Xs
+                            </a> blog post
+                            :
+                            <ul>
+                              <li>
+                                <code><pre>t[t.cab_type, t.count()].group_by(t.cab_type)</pre></code>
+                              </li>
+                              <li>
+                                <code>
+                                  <pre>
+t[
+  t.passenger_count, t.total_amount.mean().name('total_amount_mean')
+].group_by(t.passenger_count)
+                                  </pre>
+                                </code>
+                              </li>
+                              <li>
+                                <code>
+                                  <pre>
+t[
+  t.passenger_count,
+  t.pickup_datetime.year().name('pickup_year'),
+  t.count().name('pickup_year_count'),
+].group_by([t.passenger_count, t.pickup_year]),
+                                  </pre>
+                                </code>
+                              </li>
+                              <li>
+                                <code>
+                                  <pre>
+t[
+  t.passenger_count,
+  t.pickup_datetime.year().name('pickup_year'),
+  t.trip_distance.cast(int).name('distance'),
+  t.count().name('the_count'),
+]
+.group_by([t.passenger_count, t.pickup_year, t.distance])
+.order_by([t.pickup_year, t.the_count], asc=False),
+                                  </pre>
+                                </code>
+                              </li>
+                            </ul>
+                          </p>
+                          <p>
+                            Where <code>t</code> is the <strong>trip</strong>
+                            table that contains
+                            <strong>
+                              New York City Taxi and For-Hire Vehicle Data
+                            </strong>.
+                          </p>
+                          <p>
+                            The time reported here doesn't considerer the time
+                            for data loading, eg. <code>Pandas</code>
+                            <code>read_csv</code> or
+                            <code>OmniSciDB</code> <code>COPY FROM</code>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Methodology Result:END -->
+          </div>
+          <!-- Row:END -->
+          <!-- Row:START -->
+          <div class="row">
+            <!-- Area Chart -->
+            <div class="col">
+              <div class="card border-0">
+                <div class="card-body ">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col">
+                      <div
+                        class="text-s font-weight-bold text-dark text-uppercase mb-1">
+                        Results
+                      </div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+
+                          <img src='static/chart-nyc-taxi.png' class="p-auto"
+                            style="width:100%;height:100%" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Area Chart:END -->
+          </div>
+          <!-- row:END -->
+
+          <!-- row: START -->
+          <div class="row">
+            <!-- Descriptive Result:START -->
+            <div class="col">
+              <div class="card border-0 py-2">
+                <div class="card-body ">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col">
+                      <div
+                        class="text-s font-weight-bold text-dark text-uppercase mb-1">
+                        Summary
+                      </div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <p>
+                            Some considerations about this benchmark:
+                            <ul>
+                              <li>
+                                <code>Ibis OmniSciDB</code> backend, using
+                                <code>cursor</code> execution type,
+                                presents a better performance than
+                                <code>Pandas</code> and other
+                                <code>Ibis OmniSciDB</code>
+                                execution types for <strong>all</strong>
+                                expressions.
+                              </li>
+                              <li>
+                                <code>Ibis OmniSciDB</code> backend using
+                                <code>IPC GPU</code>
+                                presents a better performance than
+                                using <code>IPC CPU</code> for all expressions.
+                              </li>
+                              <li>
+                                <code>Pandas</code> presents a better
+                                performance than <code>Ibis OmniSciDB</code>
+                                backend using <code>IPC</code>
+                                execution types for simple expressions.
+                              </li>
+                            </ul>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Descriptive Result:END -->
+          </div>
+          <!-- row:END -->
+
+          <div class="row">
+            <!-- Hardware:START -->
+            <div class="col">
+              <div class="card border-0">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col">
+                      <div
+                        class="text-s font-weight-bold text-dark text-uppercase mb-1">
+                        Hardware information
+                      </div>
+                      <p>
+                        This benchmarking have been ran in a computer with the
+                        following specification:
+                      </p>
+                      <pre>
+  Architecture:        x86_64
+  CPU op-mode(s):      32-bit, 64-bit
+  Byte Order:          Little Endian
+  CPU(s):              48
+  On-line CPU(s) list: 0-47
+  Thread(s) per core:  2
+  Core(s) per socket:  24
+  Socket(s):           1
+  NUMA node(s):        4
+  Vendor ID:           AuthenticAMD
+  CPU family:          23
+  Model:               8
+  Model name:          AMD Ryzen Threadripper 2970WX 24-Core Processor
+  Stepping:            2
+  CPU MHz:             1717.658
+  CPU max MHz:         3000.0000
+  CPU min MHz:         2200.0000
+  BogoMIPS:            5987.92
+  Virtualization:      AMD-V
+  L1d cache:           32K
+  L1i cache:           64K
+  L2 cache:            512K
+  L3 cache:            8192K
+  NUMA node0 CPU(s):   0-5,24-29
+  NUMA node1 CPU(s):   12-17,36-41
+  NUMA node2 CPU(s):   6-11,30-35
+  NUMA node3 CPU(s):   18-23,42-47
+  MemTotal:            131947616 kB
+                        </pre>
+                      <p>
+                        GPU Information
+                      </p>
+                      <pre>
+  +-----------------------------------------------------------------------------+
+  | NVIDIA-SMI 430.50       Driver Version: 430.50       CUDA Version: 10.1     |
+  |-------------------------------+----------------------+----------------------+
+  | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+  | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+  |===============================+======================+======================|
+  |   0  Quadro RTX 8000     Off  | 00000000:41:00.0 Off |                  Off |
+  | 34%   47C    P0    65W / 260W |      0MiB / 48601MiB |      0%      Default |
+  +-------------------------------+----------------------+----------------------+
+  |   1  Quadro RTX 8000     Off  | 00000000:42:00.0 Off |                  Off |
+  | 35%   53C    P0     1W / 260W |      0MiB / 48600MiB |      0%      Default |
+  +-------------------------------+----------------------+----------------------+
+                        </pre>
+                      <p>
+                        Disk Partition Information
+                      </p>
+                      <pre>
+  NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+  sda           8:0    0   3.7T  0 disk
+  └─sda1        8:1    0   3.7T  0 part /work
+  nvme0n1     259:0    0 953.9G  0 disk
+  ├─nvme0n1p1 259:1    0   100G  0 part
+  ├─nvme0n1p2 259:2    0     1K  0 part
+  └─nvme0n1p5 259:3    0 853.9G  0 part /
+                        </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- HARDWARE:END -->
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Quansight & OmniSci 2019</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Bootstrap/Jquery core JavaScript-->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="static/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

@@ -1,42 +1,20 @@
 {
- "ibis_omniscidb_cpu_ipc": {
-  "trip_distance_max": 0.8671233654022217,
-  "trip_distance_min": 0.85835067431132,
-  "trip_distance_mean": 0.8510908285776774,
-  "trip_distance_std": 0.9598902861277262,
-  "trip_distance_sum": 0.8396399815877279,
-  "fare_amount_less_100_sum": 0.8611683050791422,
-  "fare_amount_less_100_mean": 0.8509809176127116,
-  "fare_amount_less_100_std": 0.9505401452382406
+ "omniscidb_cpu_cursor": {
+  "trip_count_cab_type": 2.2433951695760093,
+  "trip_passenger_total_amount_mean": 1.4884685675303142,
+  "trip_group_by_passenger_count_and_pickup_year": 0.8593664169311523,
+  "trip_grouped_by_passenger_count_and_pickup_year_and_distance": 5.7314151128133135
  },
- "ibis_omniscidb_cpu_cursor": {
-  "trip_distance_max": 0.056943416595458984,
-  "trip_distance_min": 0.051325718561808266,
-  "trip_distance_mean": 0.05098565419514974,
-  "trip_distance_std": 0.14870929718017578,
-  "trip_distance_sum": 0.04930384953816732,
-  "fare_amount_less_100_sum": 0.051746527353922524,
-  "fare_amount_less_100_mean": 0.05093534787495931,
-  "fare_amount_less_100_std": 0.13738512992858887
+ "omniscidb_cpu_ipc": {
+  "trip_count_cab_type": 0.7580085595448812,
+  "trip_passenger_total_amount_mean": 0.8778728644053141,
+  "trip_group_by_passenger_count_and_pickup_year": 0.8783919811248779,
+  "trip_grouped_by_passenger_count_and_pickup_year_and_distance": 4.231396357218425
  },
- "ibis_omniscidb_gpu_ipc": {
-  "trip_distance_max": 0.6306509971618652,
-  "trip_distance_min": 0.4664897123972575,
-  "trip_distance_mean": 0.547577699025472,
-  "trip_distance_std": 0.5628440380096436,
-  "trip_distance_sum": 0.4680594603220622,
-  "fare_amount_less_100_sum": 0.4901183446248372,
-  "fare_amount_less_100_mean": 0.4595160484313965,
-  "fare_amount_less_100_std": 0.4874589443206787
- },
- "pandas": {
-  "trip_distance_max": 0.28170188268025714,
-  "trip_distance_min": 0.3031380971272786,
-  "trip_distance_mean": 0.27955039342244464,
-  "trip_distance_std": 0.5935924847920736,
-  "trip_distance_sum": 0.27694042523701984,
-  "fare_amount_less_100_sum": 0.7401332060496012,
-  "fare_amount_less_100_mean": 0.7314636707305908,
-  "fare_amount_less_100_std": 0.9805221557617188
+ "omniscidb_cuda_ipc": {
+  "trip_count_cab_type": 1.8612178961435955,
+  "trip_passenger_total_amount_mean": 1.572952667872111,
+  "trip_group_by_passenger_count_and_pickup_year": 0.8280782699584961,
+  "trip_grouped_by_passenger_count_and_pickup_year_and_distance": 1.9393291473388672
  }
 }
